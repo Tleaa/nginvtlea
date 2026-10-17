@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#c8e8ff" />
+  <meta name="description" content="Góc nhỏ của Tlea: một chút lập trình, một chút mơ mộng và thật nhiều cáo." />
+  <title>Tlea's Little Den 🦊</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #203b62;
+      --muted: #6e86a5;
+      --blue: #6aa9ee;
+      --blue-deep: #397cc4;
+      --baby: #c8e8ff;
+      --ice: #eaf6ff;
+      --white: #fff;
+      --fox: #d98750;
+      --fox-dark: #9d5738;
+      --line: rgba(95, 145, 198, .18);
+      --shadow: 0 22px 60px rgba(67, 119, 174, .13);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      background:
+        radial-gradient(ellipse at 8% 5%, rgba(255,255,255,.95) 0 5%, transparent 29%),
+        radial-gradient(ellipse at 94% 24%, rgba(164,214,255,.4), transparent 30%),
+        linear-gradient(155deg, #eff9ff 0%, #dcefff 48%, #f7fbff 100%);
+      overflow-x: hidden;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; pointer-events: none; opacity: .22; z-index: -1;
+      background-image: radial-gradient(#79b5ee 1px, transparent 1px);
+      background-size: 25px 25px;
+      mask-image: linear-gradient(to bottom, black, transparent 80%);
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .shell { width: min(1120px, calc(100% - 40px)); margin: auto; }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+      padding: 24px 0;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; font-family: 'Nunito', sans-serif; font-weight: 900; letter-spacing: -.4px; }
+    .brand-mark {
+      width: 38px; height: 38px; display: grid; place-items: center; border-radius: 14px;
+      background: white; box-shadow: 0 8px 22px #8cbde52b; font-size: 22px; transform: rotate(-5deg);
+    }
+    .nav-links { display: flex; align-items: center; gap: 28px; color: #5f7897; font-size: 13px; font-weight: 700; }
+    .nav-links a:hover { color: var(--blue-deep); }
+    .nav-pill { background: white; border: 1px solid var(--line); padding: 11px 16px; border-radius: 99px; }
+    .hero {
+      min-height: 610px; display: grid; grid-template-columns: 1.05fr .95fr; align-items: center;
+      gap: 32px; padding: 42px 0 72px; position: relative;
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px; border: 1px solid #b9ddfa;
+      background: rgba(255,255,255,.7); color: #4f86bc; border-radius: 99px;
+      padding: 9px 14px; font-size: 12px; font-weight: 800; letter-spacing: .7px; text-transform: uppercase;
+    }
+    .eyebrow .dot { width: 7px; height: 7px; background: #70b7f4; border-radius: 50%; box-shadow: 0 0 0 4px #70b7f426; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font: 900 clamp(46px, 6vw, 76px)/.99 'Nunito', sans-serif; letter-spacing: -3.5px; margin: 23px 0 20px; }
+    h1 .name { color: var(--blue-deep); position: relative; display: inline-block; }
+    h1 .name::after { content: ""; position: absolute; height: 9px; left: 2px; right: 2px; bottom: -3px; background: #acd9ff; border-radius: 99px; z-index: -1; transform: rotate(-2deg); }
+    .hero-copy { max-width: 510px; color: var(--muted); line-height: 1.85; font-size: 16px; }
+    .hero-copy strong { color: var(--ink); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .btn { display: inline-flex; align-items: center; gap: 9px; padding: 14px 19px; border-radius: 15px; font-size: 13px; font-weight: 800; transition: transform .2s, box-shadow .2s; cursor: pointer; border: 0; }
+    .btn:hover { transform: translateY(-3px); }
+    .btn-primary { color: white; background: linear-gradient(135deg, #70b5f5, #438bd4); box-shadow: 0 12px 24px #438bd42b; }
+    .btn-soft { background: rgba(255,255,255,.8); border: 1px solid var(--line); color: #52759d; }
+    .tiny-note { margin-top: 22px; color: #8aa0b9; font-size: 12px; }
+    .tiny-note span { color: #e29b73; }
+    .art-stage { position: relative; min-height: 430px; display: grid; place-items: center; isolation: isolate; }
+    .orbit { position: absolute; border: 1px dashed #8dbfea80; border-radius: 50%; transform: rotate(-18deg); }
+    .orbit.one { width: 390px; height: 320px; }
+    .orbit.two { width: 310px; height: 390px; transform: rotate(28deg); border-color: #b1d9f480; }
+    .blob { position: absolute; width: 330px; height: 300px; border-radius: 48% 52% 47% 53%; background: linear-gradient(140deg, #d6eeff, #acd7ff); z-index: -1; transform: rotate(-8deg); box-shadow: inset -18px -16px 0 #8bc2f322; }
+    .fox-main { width: min(350px, 95%); filter: drop-shadow(0 20px 18px #447db324); animation: float 5s ease-in-out infinite; }
+    .fox-mini { position: absolute; width: 104px; right: 2%; bottom: 12%; transform: rotate(8deg); filter: drop-shadow(0 9px 8px #447db322); animation: float 4s ease-in-out infinite reverse; }
+    .spark { position: absolute; color: #fff; font-size: 26px; text-shadow: 0 3px 12px #77b7f6; animation: twinkle 3s ease-in-out infinite; }
+    .s1 { top: 11%; left: 13%; } .s2 { right: 12%; top: 20%; font-size: 18px; animation-delay: .7s; } .s3 { bottom: 16%; left: 12%; font-size: 20px; animation-delay: 1.2s; }
+    .float-tag { position: absolute; background: rgba(255,255,255,.86); border: 1px solid #fff; border-radius: 15px; padding: 11px 14px; box-shadow: 0 10px 28px #558fc21c; font-size: 11px; font-weight: 800; color: #6483a4; }
+    .tag-top { top: 10%; right: 0; transform: rotate(5deg); } .tag-bottom { left: 0; bottom: 14%; transform: rotate(-5deg); }
+    .section { padding: 54px 0; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 26px; }
+    .kicker { color: #5d9bd4; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: 900; margin-bottom: 9px; }
+    h2 { font: 900 clamp(29px, 4vw, 42px)/1.1 'Nunito', sans-serif; letter-spacing: -1.2px; margin-bottom: 0; }
+    .section-desc { color: #7890ac; max-width: 340px; line-height: 1.7; font-size: 13px; margin-bottom: 2px; }
+    .about-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 18px; }
+    .card { background: rgba(255,255,255,.76); border: 1px solid #fff; border-radius: 26px; padding: 28px; box-shadow: var(--shadow); backdrop-filter: blur(12px); }
+    .about-card { min-height: 260px; position: relative; overflow: hidden; }
+    .card-label { color: #78a0c7; font-size: 11px; letter-spacing: 1.4px; font-weight: 900; text-transform: uppercase; }
+    .about-card h3 { font: 900 27px/1.25 'Nunito', sans-serif; margin: 20px 0 12px; max-width: 360px; }
+    .about-card p { color: var(--muted); font-size: 14px; line-height: 1.8; max-width: 420px; margin-bottom: 0; }
+    .watermark { position: absolute; right: 12px; bottom: -25px; font-size: 110px; opacity: .13; transform: rotate(-14deg); }
+    .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .fact { border-radius: 20px; padding: 19px; background: #edf7ff; border: 1px solid #e1f1ff; }
+    .fact-icon { font-size: 24px; margin-bottom: 15px; display: block; }
+    .fact strong { display: block; font: 900 16px 'Nunito', sans-serif; margin-bottom: 6px; }
+    .fact span { display: block; color: #7c94af; font-size: 12px; line-height: 1.5; }
+    .interest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .interest { padding: 23px; border-radius: 23px; background: white; border: 1px solid #fff; box-shadow: 0 12px 35px #5387b615; transition: transform .25s; }
+    .interest:hover { transform: translateY(-5px); }
+    .interest .emoji { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 16px; background: #e7f4ff; font-size: 23px; margin-bottom: 18px; }
+    .interest h3 { font: 900 18px 'Nunito', sans-serif; margin-bottom: 8px; }
+    .interest p { font-size: 13px; color: #7a91ac; line-height: 1.7; margin-bottom: 0; }
+    .chip { display: inline-block; background: #eff7ff; color: #6794bf; border-radius: 99px; padding: 7px 10px; font-size: 10px; font-weight: 800; margin: 13px 5px 0 0; }
+    .fox-banner { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 20px; padding: 34px 38px; background: linear-gradient(115deg, #c5e5ff, #e9f6ff 70%); border: 1px solid white; border-radius: 28px; overflow: hidden; position: relative; }
+    .fox-banner h2 { font-size: 29px; margin: 9px 0; }
+    .fox-banner p { color: #6484a5; font-size: 13px; line-height: 1.7; max-width: 520px; margin-bottom: 0; }
+    .banner-fox { width: 135px; margin-right: 12px; transform: rotate(5deg); filter: drop-shadow(0 10px 8px #5287b426); }
+    footer { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 34px 0 42px; color: #8aa0b9; font-size: 12px; }
+    footer strong { color: #6484a5; }
+    .back-top { background: white; border: 1px solid var(--line); border-radius: 50%; width: 38px; height: 38px; display: grid; place-items: center; color: #6095c9; }
+    .toast { position: fixed; left: 50%; bottom: 25px; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; background: #294d76; color: white; border-radius: 99px; padding: 12px 18px; font-size: 12px; box-shadow: 0 10px 30px #1b40633d; transition: .25s; z-index: 10; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    @keyframes float { 0%,100% { translate: 0 0; } 50% { translate: 0 -10px; } }
+    @keyframes twinkle { 0%,100% { opacity: .65; transform: scale(.9) rotate(0); } 50% { opacity: 1; transform: scale(1.12) rotate(12deg); } }
+    @media (max-width: 760px) {
+      .shell { width: min(100% - 28px, 560px); }
+      .nav { padding: 17px 0; } .nav-links { gap: 14px; font-size: 12px; } .nav-links a:nth-child(2) { display: none; }
+      .hero { grid-template-columns: 1fr; gap: 4px; padding: 48px 0 35px; min-height: auto; }
+      h1 { letter-spacing: -2.4px; } .hero-copy { font-size: 15px; }
+      .art-stage { min-height: 350px; margin-top: 4px; } .orbit.one { width: 300px; height: 250px; } .orbit.two { width: 245px; height: 310px; } .blob { width: 260px; height: 240px; }
+      .fox-main { width: 280px; } .fox-mini { width: 78px; right: 5%; bottom: 8%; } .tag-top { right: 2%; top: 6%; } .tag-bottom { left: 1%; bottom: 7%; }
+      .section { padding: 38px 0; } .section-head { display: block; } .section-desc { margin-top: 14px; }
+      .about-grid { grid-template-columns: 1fr; } .facts { grid-template-columns: 1fr 1fr; }
+      .interest-grid { grid-template-columns: 1fr; } .interest { display: grid; grid-template-columns: 55px 1fr; column-gap: 15px; padding: 19px; } .interest .emoji { grid-row: span 3; margin: 0; }
+      .interest h3 { margin: 3px 0 5px; } .interest p { margin: 0; } .chip { margin-top: 8px; }
+      .fox-banner { padding: 25px; grid-template-columns: 1fr auto; } .banner-fox { width: 82px; margin: 0; } .fox-banner h2 { font-size: 24px; }
+      footer { padding-bottom: 28px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <nav class="nav" aria-label="Điều hướng chính">
+      <a class="brand" href="#home"><span class="brand-mark">🦊</span><span>tlea's den<span style="color:#70aee8">.</span></span></a>
+      <div class="nav-links">
+        <a href="#about">Về tớ</a>
+        <a href="#interests">Sở thích</a>
+        <a class="nav-pill" href="#little-note">Ghé góc nhỏ ↗</a>
+      </div>
+    </nav>
+
+    <main>
+      <section class="hero" id="home">
+        <div>
+          <div class="eyebrow"><span class="dot"></span> welcome to my little world</div>
+          <h1>Hi, I'm<br><span class="name">Tlea.</span> <span aria-hidden="true">☁️</span></h1>
+          <p class="hero-copy">Một chiếc web nhỏ xíu để giới thiệu về tớ. Tớ thích <strong>lập trình, khám phá những điều mới</strong>, những gam xanh dịu mắt và các bé cáo có chiếc đuôi bông bông. 🦊</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#about">Khám phá về tớ <span>↘</span></a>
+            <button class="btn btn-soft" id="fox-button" type="button">Gọi cáo nhỏ <span>✦</span></button>
+          </div>
+          <p class="tiny-note"><span>✦</span> currently dreaming in baby blue &amp; bits of code</p>
+        </div>
+
+        <div class="art-stage" aria-label="Minh họa cáo màu cam dễ thương trên nền xanh baby">
+          <div class="orbit one"></div><div class="orbit two"></div><div class="blob"></div>
+          <span class="spark s1">✦</span><span class="spark s2">✧</span><span class="spark s3">✦</span>
+          <div class="float-tag tag-top">૮ ˶ᵔ ᵕ ᵔ˶ ა · cozy corner</div>
+          <div class="float-tag tag-bottom">little fox, big dreams ♡</div>
+          <svg class="fox-main" viewBox="0 0 360 350" role="img" aria-label="Cáo chibi màu cam đang ngồi">
+            <defs>
+              <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f2b47c"/><stop offset="1" stop-color="#d9854e"/></linearGradient>
+              <linearGradient id="tail" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f0b17b"/><stop offset="1" stop-color="#c87545"/></linearGradient>
+            </defs>
+            <ellipse cx="185" cy="313" rx="106" ry="15" fill="#6aa6d5" opacity=".18"/>
+            <path d="M222 245 C296 220 320 266 296 294 C280 314 240 301 221 281 C208 268 205 255 222 245Z" fill="url(#tail)"/>
+            <path d="M267 275 C287 267 301 278 299 291 C285 305 267 298 257 287Z" fill="#fff5e9"/>
+            <path d="M112 122 L93 42 Q91 31 104 39 L153 78Z" fill="#c87545" stroke="#9d5738" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M248 122 L270 42 Q272 31 258 39 L208 78Z" fill="#c87545" stroke="#9d5738" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M111 93 L104 55 L133 81Z" fill="#f5c0b3"/><path d="M251 93 L260 55 L230 81Z" fill="#f5c0b3"/>
+            <path d="M101 127 C103 82 142 66 181 70 C226 67 260 91 262 130 C266 170 239 201 181 203 C126 203 96 171 101 127Z" fill="url(#fur)" stroke="#9d5738" stroke-width="3"/>
+            <path d="M114 140 C129 120 155 125 180 149 C204 124 234 120 249 140 C246 176 219 190 181 190 C144 190 117 174 114 140Z" fill="#fff3e3"/>
+            <ellipse cx="145" cy="130" rx="7" ry="10" fill="#493b3b"/><ellipse cx="217" cy="130" rx="7" ry="10" fill="#493b3b"/>
+            <circle cx="147" cy="127" r="2.5" fill="#fff"/><circle cx="219" cy="127" r="2.5" fill="#fff"/>
+            <ellipse cx="128" cy="148" rx="10" ry="6" fill="#ef9b91" opacity=".65"/><ellipse cx="235" cy="148" rx="10" ry="6" fill="#ef9b91" opacity=".65"/>
+            <path d="M174 148 Q181 142 188 148 Q185 156 181 156 Q177 156 174 148Z" fill="#6e4a42"/>
+            <path d="M181 155 Q175 165 168 159 M181 155 Q187 165 194 159" fill="none" stroke="#6e4a42" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M139 211 Q181 192 224 211 Q251 229 249 277 Q246 301 217 303 L145 303 Q116 301 113 277 Q111 230 139 211Z" fill="url(#fur)" stroke="#9d5738" stroke-width="3"/>
+            <path d="M148 211 Q181 229 213 211 Q232 239 217 281 Q181 299 145 281 Q130 240 148 211Z" fill="#fff3e3"/>
+            <ellipse cx="145" cy="297" rx="31" ry="12" fill="#f2b47c" stroke="#9d5738" stroke-width="3"/>
+            <ellipse cx="217" cy="297" rx="31" ry="12" fill="#f2b47c" stroke="#9d5738" stroke-width="3"/>
+            <path d="M137 235 Q124 251 140 266 M225 235 Q239 251 222 266" fill="none" stroke="#9d5738" stroke-width="3" stroke-linecap="round"/>
+            <path d="M164 82 Q181 74 197 82" stroke="#f7d3a8" stroke-width="5" stroke-linecap="round" fill="none"/>
+            <path d="M83 111 l-8 -8 M279 111 l8 -8 M89 172 l-11 2 M274 172 l11 2" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".8"/>
+            <path d="M181 30 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4Z" fill="#fff" opacity=".9"/>
+          </svg>
+          <svg class="fox-mini" viewBox="0 0 140 145" role="img" aria-label="Cáo con nhỏ màu cam">
+            <path d="M81 88 C120 66 137 91 120 113 C109 127 88 113 77 102Z" fill="#c87545"/>
+            <path d="M107 101 Q124 92 124 108 Q115 121 104 111Z" fill="#fff3e3"/>
+            <path d="M26 51 L18 13 Q18 7 26 13 L51 35Z" fill="#d98750" stroke="#9d5738" stroke-width="2.5"/>
+            <path d="M83 36 L108 12 Q115 8 112 17 L101 55Z" fill="#d98750" stroke="#9d5738" stroke-width="2.5"/>
+            <path d="M27 34 L26 20 L39 34Z M94 34 L107 20 L102 40Z" fill="#f5c0b3"/>
+            <path d="M22 51 Q26 26 66 28 Q103 28 105 56 Q106 91 64 94 Q24 91 22 51Z" fill="#e99a60" stroke="#9d5738" stroke-width="2.5"/>
+            <path d="M33 58 Q48 49 64 65 Q80 49 96 58 Q91 85 64 84 Q38 84 33 58Z" fill="#fff3e3"/>
+            <ellipse cx="47" cy="53" rx="4" ry="6" fill="#493b3b"/><ellipse cx="81" cy="53" rx="4" ry="6" fill="#493b3b"/>
+            <path d="M60 67 Q64 63 68 67 Q66 72 64 72Z" fill="#6e4a42"/>
+            <path d="M64 72 Q59 78 55 73 M64 72 Q69 78 73 73" fill="none" stroke="#6e4a42" stroke-width="1.8" stroke-linecap="round"/>
+            <ellipse cx="40" cy="66" rx="6" ry="3.5" fill="#ef9b91"/><ellipse cx="88" cy="66" rx="6" ry="3.5" fill="#ef9b91"/>
+            <path d="M39 95 Q64 83 88 95 L96 125 Q64 138 32 125Z" fill="#e99a60" stroke="#9d5738" stroke-width="2.5"/>
+            <path d="M48 94 Q64 106 80 94 L78 124 Q64 130 50 124Z" fill="#fff3e3"/>
+            <ellipse cx="46" cy="124" rx="18" ry="7" fill="#f2b47c" stroke="#9d5738" stroke-width="2.5"/><ellipse cx="81" cy="124" rx="18" ry="7" fill="#f2b47c" stroke="#9d5738" stroke-width="2.5"/>
+          </svg>
+        </div>
+      </section>
+
+      <section class="section" id="about">
+        <div class="section-head">
+          <div><div class="kicker">01 / a little about me</div><h2>Đôi điều về tớ<span style="color:#79b9ef">.</span></h2></div>
+          <p class="section-desc">Không cần phải thật đặc biệt mới có một thế giới của riêng mình. Đây là phiên bản nhỏ xinh của tớ.</p>
+        </div>
+        <div class="about-grid">
+          <article class="card about-card">
+            <span class="card-label">the person behind the screen</span>
+            <h3>Một người đang học hỏi, thử nghiệm và lớn lên từng chút một.</h3>
+            <p>Tớ là học sinh thích những thứ có logic, thích tự tay làm ra sản phẩm của riêng mình và luôn tò mò xem “nếu thử cách khác thì sao?”. Hiện tại, tớ đang gom nhặt kiến thức để biến ý tưởng thành những dòng code thật sự.</p>
+            <span class="watermark" aria-hidden="true">☁️</span>
+          </article>
+          <div class="facts">
+            <div class="fact"><span class="fact-icon">💻</span><strong>Code & create</strong><span>Học lập trình, thích giải quyết vấn đề.</span></div>
+            <div class="fact"><span class="fact-icon">🩵</span><strong>Baby blue</strong><span>Màu xanh dịu mắt là chân ái.</span></div>
+            <div class="fact"><span class="fact-icon">🦊</span><strong>Fox enthusiast</strong><span>Cáo chibi hay cáo thường đều đáng yêu.</span></div>
+            <div class="fact"><span class="fact-icon">🌱</span><strong>Work in progress</strong><span>Chậm một chút cũng được, miễn là tiến lên.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="interests">
+        <div class="section-head">
+          <div><div class="kicker">02 / things I love</div><h2>Những chiếc “hệ” của tớ<span style="color:#79b9ef">.</span></h2></div>
+          <p class="section-desc">Một vài thứ làm tớ thấy vui, có động lực và muốn tìm hiểu sâu hơn.</p>
+        </div>
+        <div class="interest-grid">
+          <article class="interest">
+            <span class="emoji">⌨️</span><h3>Programming</h3>
+            <p>C++ là điểm bắt đầu của hành trình. Tớ muốn luyện tư duy thuật toán và tạo ra những dự án nho nhỏ của riêng mình.</p>
+            <div><span class="chip">C++</span><span class="chip">Problem solving</span></div>
+          </article>
+          <article class="interest">
+            <span class="emoji">🧩</span><h3>Logic & learning</h3>
+            <p>Thích cảm giác một bài khó bỗng sáng tỏ sau khi kiên nhẫn tháo từng nút thắt.</p>
+            <div><span class="chip">Curiosity</span><span class="chip">STEM</span></div>
+          </article>
+          <article class="interest">
+            <span class="emoji">🦊</span><h3>Soft little things</h3>
+            <p>Góc xanh baby, mây mềm, những bé cáo cam và một chiếc không gian gọn gàng dễ thương.</p>
+            <div><span class="chip">Baby blue</span><span class="chip">Foxes</span></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="little-note">
+        <div class="fox-banner">
+          <div><div class="kicker">03 / a tiny reminder</div><h2>Small steps still count. 🩵</h2><p>Tớ chưa cần biết hết mọi thứ ngay bây giờ. Cứ học thêm một chút, thử thêm một lần, rồi một ngày nhìn lại sẽ thấy mình đã đi xa hơn tưởng tượng.</p></div>
+          <svg class="banner-fox" viewBox="0 0 140 145" role="img" aria-label="Cáo nhỏ ngồi cạnh lời nhắn">
+            <path d="M82 87 C120 68 137 91 120 113 C108 127 88 113 77 102Z" fill="#c87545"/><path d="M107 101 Q124 92 124 108 Q115 121 104 111Z" fill="#fff3e3"/>
+            <path d="M26 51 L18 13 Q18 7 26 13 L51 35Z" fill="#d98750" stroke="#9d5738" stroke-width="2.5"/><path d="M83 36 L108 12 Q115 8 112 17 L101 55Z" fill="#d98750" stroke="#9d5738" stroke-width="2.5"/>
+            <path d="M27 34 L26 20 L39 34Z M94 34 L107 20 L102 40Z" fill="#f5c0b3"/><path d="M22 51 Q26 26 66 28 Q103 28 105 56 Q106 91 64 94 Q24 91 22 51Z" fill="#e99a60" stroke="#9d5738" stroke-width="2.5"/>
+            <path d="M33 58 Q48 49 64 65 Q80 49 96 58 Q91 85 64 84 Q38 84 33 58Z" fill="#fff3e3"/><ellipse cx="47" cy="53" rx="4" ry="6" fill="#493b3b"/><ellipse cx="81" cy="53" rx="4" ry="6" fill="#493b3b"/><path d="M60 67 Q64 63 68 67 Q66 72 64 72Z" fill="#6e4a42"/><path d="M64 72 Q59 78 55 73 M64 72 Q69 78 73 73" fill="none" stroke="#6e4a42" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M39 95 Q64 83 88 95 L96 125 Q64 138 32 125Z" fill="#e99a60" stroke="#9d5738" stroke-width="2.5"/><path d="M48 94 Q64 106 80 94 L78 124 Q64 130 50 124Z" fill="#fff3e3"/><ellipse cx="46" cy="124" rx="18" ry="7" fill="#f2b47c" stroke="#9d5738" stroke-width="2.5"/><ellipse cx="81" cy="124" rx="18" ry="7" fill="#f2b47c" stroke="#9d5738" stroke-width="2.5"/>
+          </svg>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>Made with <span style="color:#df9a7a">♥</span> &amp; a little bit of code · <strong>Tlea's Little Den</strong></div>
+      <a class="back-top" href="#home" aria-label="Quay về đầu trang">↑</a>
+    </footer>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite">Cáo nhỏ đã xuất hiện! 🦊</div>
+  <script>
+    const button = document.getElementById('fox-button');
+    const toast = document.getElementById('toast');
+    let toastTimer;
+    button.addEventListener('click', () => {
+      toast.classList.add('show');
+      button.innerHTML = 'Cáo đã tới! <span>♡</span>';
+      window.clearTimeout(toastTimer);
+      toastTimer = window.setTimeout(() => {
+        toast.classList.remove('show');
+        button.innerHTML = 'Gọi cáo nhỏ <span>✦</span>';
+      }, 2200);
+    });
+  </script>
+</body>
+</html>
