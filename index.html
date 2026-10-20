@@ -247,9 +247,10 @@ function chooseCpTrack(button){
 document.getElementById('cpPlayBtn').addEventListener('click',()=>{
   cpPlayer.src='https://www.youtube-nocookie.com/embed/'+currentCpVideo+'?enablejsapi=1&controls=1&playsinline=1&rel=0&autoplay=1';
   cpPlayerStatus.textContent='Đang yêu cầu phát bài đã chọn…';
+  setSoundButton(true);
 });
 document.getElementById('cpPauseBtn').addEventListener('click',()=>{
-  try{cpPlayer.contentWindow.postMessage(JSON.stringify({event:'command',func:'pauseVideo',args:''}),'https://www.youtube-nocookie.com');cpPlayerStatus.textContent='Đã gửi lệnh tạm dừng.'}catch(error){cpPlayerStatus.textContent='Dùng nút tạm dừng ngay trên trình phát nếu cần.'}
+  try{cpPlayer.contentWindow.postMessage(JSON.stringify({event:'command',func:'pauseVideo',args:''}),'https://www.youtube-nocookie.com');cpPlayerStatus.textContent='Đã gửi lệnh tạm dừng.';setSoundButton(false)}catch(error){cpPlayerStatus.textContent='Dùng nút tạm dừng ngay trên trình phát nếu cần.';setSoundButton(false)}
 });
 modalListenBtn.addEventListener('click',()=>{
   charliePlaylist.hidden=false;
@@ -279,8 +280,12 @@ listenBtn.addEventListener('click',()=>{
   window.open('https://www.youtube.com/results?search_query='+encodeURIComponent(selectedTrack.query),'_blank','noopener,noreferrer');
 });
 const soundButton=document.getElementById('soundToggle');
+function setSoundButton(isOn){
+  soundButton.textContent=isOn?'♫ Âm thanh: Bật':'♫ Âm thanh: Tắt';
+  soundButton.setAttribute('aria-pressed',String(isOn));
+  soundButton.setAttribute('aria-label',isOn?'Tắt nhạc đang phát':'Bật lại nhạc đã chọn');
+}
 function stopAllPageAudio(){
-  // Explicitly stop the embedded YouTube player before removing its source.
   try{
     if(cpPlayer && cpPlayer.contentWindow){
       cpPlayer.contentWindow.postMessage(JSON.stringify({event:'command',func:'stopVideo',args:''}),'https://www.youtube-nocookie.com');
@@ -296,20 +301,27 @@ function stopAllPageAudio(){
       }
     }catch(e){}
   });
-  if(cpPlayerStatus)cpPlayerStatus.textContent='Đã tắt nhạc. Chọn bài rồi bấm Phát để nghe lại.';
+  if(cpPlayerStatus)cpPlayerStatus.textContent='Đã tắt nhạc. Bấm “Âm thanh: Bật” để nghe lại bài đã chọn.';
   oscillators.forEach(osc=>{try{osc.stop()}catch(e){}});
   oscillators=[];
   soundOn=false;
   if(audioContext)audioContext.suspend().catch(()=>{});
-  soundButton.textContent='♫ Âm thanh: Tắt';
-  soundButton.setAttribute('aria-pressed','false');
+  setSoundButton(false);
 }
-soundButton.textContent='♫ Âm thanh: Bật';
-soundButton.setAttribute('aria-label','Tắt tất cả nhạc và âm thanh đang phát');
+setSoundButton(false);
 soundButton.addEventListener('click',()=>{
-  stopAllPageAudio();
-  soundButton.textContent='♫ Âm thanh: Tắt';
-  soundButton.setAttribute('aria-pressed','false');
+  if(soundButton.getAttribute('aria-pressed')==='true'){
+    stopAllPageAudio();
+    return;
+  }
+  // Restore the last selected song after stopping the iframe.
+  if(cpPlayer && currentCpVideo){
+    cpPlayer.src='https://www.youtube-nocookie.com/embed/'+currentCpVideo+'?enablejsapi=1&controls=1&playsinline=1&rel=0&autoplay=1';
+    if(cpPlayerStatus)cpPlayerStatus.textContent='Đang bật lại bài nhạc đã chọn…';
+    setSoundButton(true);
+  }else{
+    setSoundButton(false);
+  }
 });</script>
 </body>
 </html>
