@@ -31,6 +31,27 @@ h1,h2,h3,p{margin-top:0}h1{font:900 clamp(48px,7vw,78px)/.98 Nunito,sans-serif;l
 .reveal{opacity:0;transform:translateY(17px);transition:opacity .7s ease,transform .7s ease}.reveal.visible{opacity:1;transform:none}
 @keyframes float{0%,100%{translate:0 0}50%{translate:0 -9px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}}
 @media(max-width:760px){.shell{width:calc(100% - 28px)}.nav{margin:0 calc((28px - 100vw)/2);padding:12px 14px}.nav-links{gap:12px}.nav-links a:nth-child(2){display:none}.sound-btn{padding:9px}.hero{grid-template-columns:1fr;padding:43px 0 30px;gap:0}.stage{min-height:340px}.halo{width:245px;height:245px}.ring{width:300px;height:250px}.ring.r2{width:250px;height:300px}.castle-art{width:300px}.section{padding:35px 0}.section-head{display:block}.section-desc{margin-top:12px}.about-grid,.journey-grid,.anime-card{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.interest{display:grid;grid-template-columns:52px 1fr;column-gap:13px}.iconbox{grid-row:span 3;margin:0}.interest h3{margin:2px 0 6px}.interest p{margin:0}.chips{margin-top:7px}.quote-box{padding:23px}.quote-flower{font-size:55px}.footer{padding-bottom:27px}}
+
+/* Welcome music picker */
+.music-modal-backdrop{position:fixed;inset:0;z-index:100;background:#203b5d75;backdrop-filter:blur(8px);display:grid;place-items:center;padding:18px;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.music-modal-backdrop.open{opacity:1;visibility:visible}
+.music-modal{width:min(570px,100%);max-height:min(86vh,760px);overflow:auto;position:relative;background:linear-gradient(145deg,#f8fbff,#fffaf0);border:1px solid #fff;border-radius:28px;padding:25px;box-shadow:0 30px 100px #17385845;transform:translateY(12px) scale(.98);transition:transform .25s}
+.music-modal-backdrop.open .music-modal{transform:none}
+.music-modal-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.music-modal h2{font:900 clamp(26px,5vw,34px)/1.1 Nunito,sans-serif;letter-spacing:-.8px;margin:8px 0}
+.music-modal-intro{font-size:12px;line-height:1.75;color:var(--muted);margin:9px 0 17px}
+.modal-close{width:36px;height:36px;flex:0 0 36px;border:1px solid #fff;border-radius:50%;background:#edf5ff;color:#6686a9;font-size:20px;cursor:pointer}
+.modal-picks{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.modal-pick{display:flex;align-items:center;gap:10px;text-align:left;border:1px solid #fff;border-radius:16px;background:#ffffffc9;padding:12px;cursor:pointer;color:var(--ink);min-width:0}
+.modal-pick[aria-pressed=true]{background:#e4f2ff;border-color:#79b4e7;box-shadow:0 0 0 2px #c3e0f8 inset}
+.modal-pick .track-art{width:36px;height:36px;flex-basis:36px}
+.modal-pick strong{font-size:11px;display:block}
+.modal-pick small{display:block;color:var(--muted);font-size:10px;margin-top:4px}
+.modal-actions{display:flex;gap:9px;margin-top:16px}
+.modal-actions .btn{flex:1}
+.modal-footnote{font-size:10px;color:#8a9db4;line-height:1.6;margin:12px 0 0}
+@media(max-width:440px){.music-modal{padding:19px;border-radius:23px}.modal-picks{grid-template-columns:1fr}.modal-actions{flex-direction:column}}
+
 </style>
 </head>
 <body>
@@ -113,9 +134,52 @@ h1,h2,h3,p{margin-top:0}h1{font:900 clamp(48px,7vw,78px)/.98 Nunito,sans-serif;l
 </main>
 <footer class="footer"><div>Made with <span style="color:#c49dbb">♥</span> &amp; a little bit of code · <strong>TLeaa's Little Den</strong></div><a class="top" href="#home" aria-label="Về đầu trang">↑</a></footer>
 </div>
+
+<div class="music-modal-backdrop" id="musicModal" role="dialog" aria-modal="true" aria-labelledby="musicModalTitle" aria-hidden="true">
+  <div class="music-modal">
+    <div class="music-modal-top"><div><span class="mini-label">a little music for your visit ✿</span><h2 id="musicModalTitle">Pick your vibe 🎧</h2></div><button class="modal-close" id="closeMusicModal" type="button" aria-label="Đóng bảng chọn nhạc">×</button></div>
+    <p class="music-modal-intro">Chọn thử một gợi ý nhạc mà web dành riêng cho cậu nha. Muốn nghe thể loại nào trước nè?</p>
+    <div class="modal-picks" id="modalPicks">
+      <button class="modal-pick" type="button" data-song="CAPTAIN BOY" data-query="CAPTAIN BOY official songs" aria-pressed="false"><span class="track-art">🎧</span><span><strong>CAPTAIN BOY</strong><small>V-Pop · catchy</small></span></button>
+      <button class="modal-pick" type="button" data-song="CORTIS" data-query="CORTIS official music" aria-pressed="false"><span class="track-art">🩵</span><span><strong>CORTIS</strong><small>Fresh pop mood</small></span></button>
+      <button class="modal-pick" type="button" data-song="Charlie Puth" data-query="Charlie Puth official songs" aria-pressed="false"><span class="track-art">☁️</span><span><strong>Charlie Puth</strong><small>Pop · melody</small></span></button>
+      <button class="modal-pick" type="button" data-song="Bray" data-query="Bray official songs" aria-pressed="false"><span class="track-art">🎙️</span><span><strong>Bray</strong><small>Melodic rap</small></span></button>
+      <button class="modal-pick" type="button" data-song="Ballad mood" data-query="Vietnamese chill ballad playlist" aria-pressed="false"><span class="track-art">🌷</span><span><strong>Ballad mood</strong><small>Nhẹ nhàng, cảm xúc</small></span></button>
+      <button class="modal-pick" type="button" data-song="Melodic rap mood" data-query="Vietnamese melodic rap playlist" aria-pressed="false"><span class="track-art">✨</span><span><strong>Melodic rap mood</strong><small>Rap có giai điệu</small></span></button>
+    </div>
+    <div class="modal-actions"><button class="btn primary" id="modalListenBtn" type="button" disabled>▶ Nghe thử gợi ý</button><button class="btn soft" id="skipMusicBtn" type="button">Để lát nghe ♡</button></div>
+    <p class="modal-footnote">Bấm “Nghe thử” sẽ mở kết quả nhạc tương ứng trên YouTube. Trình duyệt không tự bật nhạc có tiếng khi vừa vào web, nên cậu được tự chọn nha.</p>
+  </div>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite">Lời chào đã gửi tới góc nhỏ này. ✿</div>
 <script>
 const toast=document.getElementById('toast');let toastTimer;
+
+const musicModal=document.getElementById('musicModal');
+const modalPickButtons=document.querySelectorAll('.modal-pick');
+const modalListenBtn=document.getElementById('modalListenBtn');
+let modalTrack=null;
+function closeMusicPicker(){musicModal.classList.remove('open');musicModal.setAttribute('aria-hidden','true');document.body.style.overflow=''}
+function openMusicPicker(){musicModal.classList.add('open');musicModal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}
+window.addEventListener('DOMContentLoaded',()=>{window.setTimeout(openMusicPicker,350)});
+document.getElementById('closeMusicModal').addEventListener('click',closeMusicPicker);
+document.getElementById('skipMusicBtn').addEventListener('click',closeMusicPicker);
+musicModal.addEventListener('click',event=>{if(event.target===musicModal)closeMusicPicker()});
+document.addEventListener('keydown',event=>{if(event.key==='Escape'&&musicModal.classList.contains('open'))closeMusicPicker()});
+modalPickButtons.forEach(button=>button.addEventListener('click',()=>{
+  modalPickButtons.forEach(item=>item.setAttribute('aria-pressed','false'));
+  button.setAttribute('aria-pressed','true');
+  modalTrack={song:button.dataset.song,query:button.dataset.query};
+  modalListenBtn.disabled=false;
+  modalListenBtn.textContent='▶ Nghe '+modalTrack.song;
+}));
+modalListenBtn.addEventListener('click',()=>{
+  if(!modalTrack)return;
+  window.open('https://www.youtube.com/results?search_query='+encodeURIComponent(modalTrack.query),'_blank','noopener,noreferrer');
+  closeMusicPicker();
+});
+
 document.getElementById('helloBtn').addEventListener('click',()=>{toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),2200)});
 const revealItems=document.querySelectorAll('.reveal');
 if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}}),{threshold:.12});revealItems.forEach(item=>observer.observe(item))}else{revealItems.forEach(item=>item.classList.add('visible'))}
