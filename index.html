@@ -1,300 +1,118 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#c8e8ff" />
-  <meta name="description" content="Góc nhỏ của Tlea: một chút lập trình, một chút mơ mộng và thật nhiều cáo." />
-  <title>Tlea's Little Den 🦊</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --ink: #203b62;
-      --muted: #6e86a5;
-      --blue: #6aa9ee;
-      --blue-deep: #397cc4;
-      --baby: #c8e8ff;
-      --ice: #eaf6ff;
-      --white: #fff;
-      --fox: #d98750;
-      --fox-dark: #9d5738;
-      --line: rgba(95, 145, 198, .18);
-      --shadow: 0 22px 60px rgba(67, 119, 174, .13);
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      color: var(--ink);
-      font-family: 'DM Sans', sans-serif;
-      background:
-        radial-gradient(ellipse at 8% 5%, rgba(255,255,255,.95) 0 5%, transparent 29%),
-        radial-gradient(ellipse at 94% 24%, rgba(164,214,255,.4), transparent 30%),
-        linear-gradient(155deg, #eff9ff 0%, #dcefff 48%, #f7fbff 100%);
-      overflow-x: hidden;
-    }
-    body::before {
-      content: ""; position: fixed; inset: 0; pointer-events: none; opacity: .22; z-index: -1;
-      background-image: radial-gradient(#79b5ee 1px, transparent 1px);
-      background-size: 25px 25px;
-      mask-image: linear-gradient(to bottom, black, transparent 80%);
-    }
-    a { color: inherit; text-decoration: none; }
-    button { font: inherit; }
-    .shell { width: min(1120px, calc(100% - 40px)); margin: auto; }
-    .nav {
-      display: flex; align-items: center; justify-content: space-between; gap: 20px;
-      padding: 24px 0;
-    }
-    .brand { display: flex; align-items: center; gap: 10px; font-family: 'Nunito', sans-serif; font-weight: 900; letter-spacing: -.4px; }
-    .brand-mark {
-      width: 38px; height: 38px; display: grid; place-items: center; border-radius: 14px;
-      background: white; box-shadow: 0 8px 22px #8cbde52b; font-size: 22px; transform: rotate(-5deg);
-    }
-    .nav-links { display: flex; align-items: center; gap: 28px; color: #5f7897; font-size: 13px; font-weight: 700; }
-    .nav-links a:hover { color: var(--blue-deep); }
-    .nav-pill { background: white; border: 1px solid var(--line); padding: 11px 16px; border-radius: 99px; }
-    .hero {
-      min-height: 610px; display: grid; grid-template-columns: 1.05fr .95fr; align-items: center;
-      gap: 32px; padding: 42px 0 72px; position: relative;
-    }
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 8px; border: 1px solid #b9ddfa;
-      background: rgba(255,255,255,.7); color: #4f86bc; border-radius: 99px;
-      padding: 9px 14px; font-size: 12px; font-weight: 800; letter-spacing: .7px; text-transform: uppercase;
-    }
-    .eyebrow .dot { width: 7px; height: 7px; background: #70b7f4; border-radius: 50%; box-shadow: 0 0 0 4px #70b7f426; }
-    h1, h2, h3, p { margin-top: 0; }
-    h1 { font: 900 clamp(46px, 6vw, 76px)/.99 'Nunito', sans-serif; letter-spacing: -3.5px; margin: 23px 0 20px; }
-    h1 .name { color: var(--blue-deep); position: relative; display: inline-block; }
-    h1 .name::after { content: ""; position: absolute; height: 9px; left: 2px; right: 2px; bottom: -3px; background: #acd9ff; border-radius: 99px; z-index: -1; transform: rotate(-2deg); }
-    .hero-copy { max-width: 510px; color: var(--muted); line-height: 1.85; font-size: 16px; }
-    .hero-copy strong { color: var(--ink); }
-    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
-    .btn { display: inline-flex; align-items: center; gap: 9px; padding: 14px 19px; border-radius: 15px; font-size: 13px; font-weight: 800; transition: transform .2s, box-shadow .2s; cursor: pointer; border: 0; }
-    .btn:hover { transform: translateY(-3px); }
-    .btn-primary { color: white; background: linear-gradient(135deg, #70b5f5, #438bd4); box-shadow: 0 12px 24px #438bd42b; }
-    .btn-soft { background: rgba(255,255,255,.8); border: 1px solid var(--line); color: #52759d; }
-    .tiny-note { margin-top: 22px; color: #8aa0b9; font-size: 12px; }
-    .tiny-note span { color: #e29b73; }
-    .art-stage { position: relative; min-height: 430px; display: grid; place-items: center; isolation: isolate; }
-    .orbit { position: absolute; border: 1px dashed #8dbfea80; border-radius: 50%; transform: rotate(-18deg); }
-    .orbit.one { width: 390px; height: 320px; }
-    .orbit.two { width: 310px; height: 390px; transform: rotate(28deg); border-color: #b1d9f480; }
-    .blob { position: absolute; width: 330px; height: 300px; border-radius: 48% 52% 47% 53%; background: linear-gradient(140deg, #d6eeff, #acd7ff); z-index: -1; transform: rotate(-8deg); box-shadow: inset -18px -16px 0 #8bc2f322; }
-    .fox-main { width: min(350px, 95%); filter: drop-shadow(0 20px 18px #447db324); animation: float 5s ease-in-out infinite; }
-    .fox-mini { position: absolute; width: 104px; right: 2%; bottom: 12%; transform: rotate(8deg); filter: drop-shadow(0 9px 8px #447db322); animation: float 4s ease-in-out infinite reverse; }
-    .spark { position: absolute; color: #fff; font-size: 26px; text-shadow: 0 3px 12px #77b7f6; animation: twinkle 3s ease-in-out infinite; }
-    .s1 { top: 11%; left: 13%; } .s2 { right: 12%; top: 20%; font-size: 18px; animation-delay: .7s; } .s3 { bottom: 16%; left: 12%; font-size: 20px; animation-delay: 1.2s; }
-    .float-tag { position: absolute; background: rgba(255,255,255,.86); border: 1px solid #fff; border-radius: 15px; padding: 11px 14px; box-shadow: 0 10px 28px #558fc21c; font-size: 11px; font-weight: 800; color: #6483a4; }
-    .tag-top { top: 10%; right: 0; transform: rotate(5deg); } .tag-bottom { left: 0; bottom: 14%; transform: rotate(-5deg); }
-    .section { padding: 54px 0; }
-    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 26px; }
-    .kicker { color: #5d9bd4; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: 900; margin-bottom: 9px; }
-    h2 { font: 900 clamp(29px, 4vw, 42px)/1.1 'Nunito', sans-serif; letter-spacing: -1.2px; margin-bottom: 0; }
-    .section-desc { color: #7890ac; max-width: 340px; line-height: 1.7; font-size: 13px; margin-bottom: 2px; }
-    .about-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 18px; }
-    .card { background: rgba(255,255,255,.76); border: 1px solid #fff; border-radius: 26px; padding: 28px; box-shadow: var(--shadow); backdrop-filter: blur(12px); }
-    .about-card { min-height: 260px; position: relative; overflow: hidden; }
-    .card-label { color: #78a0c7; font-size: 11px; letter-spacing: 1.4px; font-weight: 900; text-transform: uppercase; }
-    .about-card h3 { font: 900 27px/1.25 'Nunito', sans-serif; margin: 20px 0 12px; max-width: 360px; }
-    .about-card p { color: var(--muted); font-size: 14px; line-height: 1.8; max-width: 420px; margin-bottom: 0; }
-    .watermark { position: absolute; right: 12px; bottom: -25px; font-size: 110px; opacity: .13; transform: rotate(-14deg); }
-    .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .fact { border-radius: 20px; padding: 19px; background: #edf7ff; border: 1px solid #e1f1ff; }
-    .fact-icon { font-size: 24px; margin-bottom: 15px; display: block; }
-    .fact strong { display: block; font: 900 16px 'Nunito', sans-serif; margin-bottom: 6px; }
-    .fact span { display: block; color: #7c94af; font-size: 12px; line-height: 1.5; }
-    .interest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .interest { padding: 23px; border-radius: 23px; background: white; border: 1px solid #fff; box-shadow: 0 12px 35px #5387b615; transition: transform .25s; }
-    .interest:hover { transform: translateY(-5px); }
-    .interest .emoji { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 16px; background: #e7f4ff; font-size: 23px; margin-bottom: 18px; }
-    .interest h3 { font: 900 18px 'Nunito', sans-serif; margin-bottom: 8px; }
-    .interest p { font-size: 13px; color: #7a91ac; line-height: 1.7; margin-bottom: 0; }
-    .chip { display: inline-block; background: #eff7ff; color: #6794bf; border-radius: 99px; padding: 7px 10px; font-size: 10px; font-weight: 800; margin: 13px 5px 0 0; }
-    .fox-banner { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 20px; padding: 34px 38px; background: linear-gradient(115deg, #c5e5ff, #e9f6ff 70%); border: 1px solid white; border-radius: 28px; overflow: hidden; position: relative; }
-    .fox-banner h2 { font-size: 29px; margin: 9px 0; }
-    .fox-banner p { color: #6484a5; font-size: 13px; line-height: 1.7; max-width: 520px; margin-bottom: 0; }
-    .banner-fox { width: 135px; margin-right: 12px; transform: rotate(5deg); filter: drop-shadow(0 10px 8px #5287b426); }
-    footer { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 34px 0 42px; color: #8aa0b9; font-size: 12px; }
-    footer strong { color: #6484a5; }
-    .back-top { background: white; border: 1px solid var(--line); border-radius: 50%; width: 38px; height: 38px; display: grid; place-items: center; color: #6095c9; }
-    .toast { position: fixed; left: 50%; bottom: 25px; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; background: #294d76; color: white; border-radius: 99px; padding: 12px 18px; font-size: 12px; box-shadow: 0 10px 30px #1b40633d; transition: .25s; z-index: 10; }
-    .toast.show { opacity: 1; transform: translate(-50%, 0); }
-    @keyframes float { 0%,100% { translate: 0 0; } 50% { translate: 0 -10px; } }
-    @keyframes twinkle { 0%,100% { opacity: .65; transform: scale(.9) rotate(0); } 50% { opacity: 1; transform: scale(1.12) rotate(12deg); } }
-    @media (max-width: 760px) {
-      .shell { width: min(100% - 28px, 560px); }
-      .nav { padding: 17px 0; } .nav-links { gap: 14px; font-size: 12px; } .nav-links a:nth-child(2) { display: none; }
-      .hero { grid-template-columns: 1fr; gap: 4px; padding: 48px 0 35px; min-height: auto; }
-      h1 { letter-spacing: -2.4px; } .hero-copy { font-size: 15px; }
-      .art-stage { min-height: 350px; margin-top: 4px; } .orbit.one { width: 300px; height: 250px; } .orbit.two { width: 245px; height: 310px; } .blob { width: 260px; height: 240px; }
-      .fox-main { width: 280px; } .fox-mini { width: 78px; right: 5%; bottom: 8%; } .tag-top { right: 2%; top: 6%; } .tag-bottom { left: 1%; bottom: 7%; }
-      .section { padding: 38px 0; } .section-head { display: block; } .section-desc { margin-top: 14px; }
-      .about-grid { grid-template-columns: 1fr; } .facts { grid-template-columns: 1fr 1fr; }
-      .interest-grid { grid-template-columns: 1fr; } .interest { display: grid; grid-template-columns: 55px 1fr; column-gap: 15px; padding: 19px; } .interest .emoji { grid-row: span 3; margin: 0; }
-      .interest h3 { margin: 3px 0 5px; } .interest p { margin: 0; } .chip { margin-top: 8px; }
-      .fox-banner { padding: 25px; grid-template-columns: 1fr auto; } .banner-fox { width: 82px; margin: 0; } .fox-banner h2 { font-size: 24px; }
-      footer { padding-bottom: 28px; }
-    }
-    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#d9eaff">
+<meta name="description" content="Tlea's Little Den: một góc xanh kem về lập trình, âm nhạc, anime và những điều nhỏ xinh.">
+<title>TLeaa's Little Den ✿</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#263e60;--muted:#7186a2;--blue:#8dc4f3;--deep:#4c88c2;--baby:#d9eaff;--cream:#fffaf0;--lilac:#e9e4fa;--line:#dce9f7;--shadow:0 18px 48px #567eaa18}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:85px}body{margin:0;color:var(--ink);font-family:'DM Sans',sans-serif;background:radial-gradient(ellipse at 8% 8%,#fff 0,transparent 32%),radial-gradient(ellipse at 94% 26%,#c8e4ff99 0,transparent 30%),linear-gradient(150deg,#f0f7ff,#e2edff 47%,#fffaf0);overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.24;background-image:radial-gradient(#8db7e0 1px,transparent 1px);background-size:26px 26px;mask-image:linear-gradient(#000,transparent 85%)}
+a{color:inherit;text-decoration:none}button{font:inherit}.shell{width:min(1100px,calc(100% - 36px));margin:auto}.nav{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:15px;padding:15px max(18px,calc((100vw - 1100px)/2));margin:0 calc((1100px - 100vw)/2);background:#f3f8ffdc;backdrop-filter:blur(16px);border-bottom:1px solid #fff9}
+.brand{display:flex;align-items:center;gap:10px;font:900 17px Nunito,sans-serif}.brand-mark{display:grid;place-items:center;width:37px;height:37px;border-radius:14px;background:var(--cream);box-shadow:0 5px 18px #769bc21c;color:var(--deep);font-size:19px}.nav-links{display:flex;align-items:center;gap:22px;font-size:12px;font-weight:800;color:#6882a1}.nav-links a:hover{color:var(--deep)}.sound-btn{border:1px solid #d4e5f6;background:#fffaf0;border-radius:99px;padding:10px 13px;color:#547ba4;font-size:12px;font-weight:800;cursor:pointer}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:center;min-height:590px;padding:58px 0 65px}.eyebrow,.mini-label{display:inline-flex;align-items:center;gap:8px;color:var(--deep);font-size:11px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase}.eyebrow{background:#ffffffb8;border:1px solid #fff;border-radius:99px;padding:10px 14px}.eyebrow i{width:7px;height:7px;border-radius:50%;background:#7db9eb;box-shadow:0 0 0 4px #7db9eb27}
+h1,h2,h3,p{margin-top:0}h1{font:900 clamp(48px,7vw,78px)/.98 Nunito,sans-serif;letter-spacing:-3px;margin:23px 0 19px}h1 span{color:var(--deep);position:relative}h1 span:after{content:"";position:absolute;z-index:-1;left:0;right:0;bottom:0;height:10px;background:#c3ddf9;border-radius:99px;transform:rotate(-2deg)}.lead{max-width:500px;color:var(--muted);font-size:15px;line-height:1.9}.lead strong{color:var(--ink)}.actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:25px}.btn{border:0;border-radius:15px;padding:13px 17px;font-size:12px;font-weight:900;cursor:pointer;transition:transform .2s,box-shadow .2s}.btn:hover{transform:translateY(-3px)}.primary{background:linear-gradient(135deg,#91c8f4,#5c9bd4);color:white;box-shadow:0 10px 24px #5d9bd42c}.soft{background:#fffaf0;border:1px solid white;color:#5d7fa3}.note{font-size:11px;color:#879bb3;margin-top:21px}.note b{color:#c49dbb}
+.stage{min-height:410px;display:grid;place-items:center;position:relative;isolation:isolate}.halo{position:absolute;width:300px;height:300px;border-radius:50%;background:linear-gradient(145deg,#d4e9ff,#fff9e9);box-shadow:inset -15px -15px 0 #aacdec25;z-index:-1}.ring{position:absolute;width:370px;height:300px;border:1px dashed #9bc5e7a8;border-radius:50%;transform:rotate(-20deg)}.ring.r2{width:310px;height:370px;transform:rotate(24deg);border-color:#c3b7e7a8}
+.castle-art{width:min(370px,90%);filter:drop-shadow(0 18px 17px #5076a51c);animation:float 5s ease-in-out infinite}.flower{position:absolute;font-size:25px;filter:drop-shadow(0 4px 8px #769bc22b);animation:float 4s ease-in-out infinite}.f1{top:12%;left:10%}.f2{right:7%;top:18%;animation-delay:1s}.f3{left:8%;bottom:12%;font-size:20px;animation-delay:.5s}.float-tag{position:absolute;background:#fffaf0e8;border:1px solid white;border-radius:14px;padding:10px 12px;box-shadow:var(--shadow);font-size:10px;font-weight:900;color:#6e88a8}.tag-a{top:7%;right:0;transform:rotate(4deg)}.tag-b{bottom:8%;right:3%;transform:rotate(-4deg)}
+.section{padding:48px 0}.section-head{display:flex;justify-content:space-between;align-items:end;gap:22px;margin-bottom:24px}.kicker{font-size:10px;font-weight:900;letter-spacing:2px;color:#6398c9;margin-bottom:9px;text-transform:uppercase}h2{font:900 clamp(29px,4vw,41px)/1.12 Nunito,sans-serif;letter-spacing:-1.2px;margin-bottom:0}h2 em{font-style:normal;color:#7e9fd1}.section-desc{max-width:350px;color:var(--muted);font-size:12px;line-height:1.8;margin:0}
+.about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}.card{background:#ffffffc9;border:1px solid #fff;border-radius:25px;padding:26px;box-shadow:var(--shadow);backdrop-filter:blur(12px)}.about-main{position:relative;overflow:hidden;min-height:245px}.about-main h3{font:900 25px/1.3 Nunito,sans-serif;margin:18px 0 12px;max-width:420px}.about-main p,.card p{font-size:13px;line-height:1.85;color:var(--muted);margin-bottom:0}.watermark{position:absolute;right:14px;bottom:-23px;font-size:105px;opacity:.17}.facts{display:grid;grid-template-columns:1fr 1fr;gap:11px}.fact{background:#f0f7ff;border:1px solid #fff;border-radius:19px;padding:17px}.fact .ico{font-size:22px;display:block;margin-bottom:12px}.fact b{font:900 15px Nunito,sans-serif;display:block;margin-bottom:5px}.fact span:last-child{display:block;color:var(--muted);font-size:11px;line-height:1.6}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.interest{background:#ffffffd4;border:1px solid white;border-radius:23px;padding:22px;box-shadow:var(--shadow);transition:transform .25s}.interest:hover{transform:translateY(-5px)}.iconbox{width:47px;height:47px;display:grid;place-items:center;border-radius:16px;background:#edf5ff;font-size:22px;margin-bottom:16px}.interest h3{font:900 17px Nunito,sans-serif;margin-bottom:8px}.interest p{font-size:12px;color:var(--muted);line-height:1.8;margin-bottom:0}.chips{margin-top:12px}.chip{display:inline-block;border-radius:99px;background:#edf5ff;color:#668db7;padding:6px 9px;margin:3px 3px 0 0;font-size:10px;font-weight:800}
+.quote-box{border-radius:27px;padding:30px;background:linear-gradient(120deg,#d7eaff,#fff9ec 82%);border:1px solid #fff;display:grid;grid-template-columns:1fr auto;align-items:center;gap:20px;overflow:hidden}.quote-box blockquote{font:900 clamp(23px,3vw,34px)/1.25 Nunito,sans-serif;letter-spacing:-.5px;margin:13px 0 9px;max-width:700px}.quote-box p{font-size:12px;line-height:1.7;color:#7187a2;margin-bottom:0}.quote-flower{font-size:82px;transform:rotate(-12deg);filter:drop-shadow(0 10px 10px #7193b51e)}
+.music-list{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}.music-tag{padding:9px 12px;border-radius:13px;background:#f1f7ff;border:1px solid #fff;font-size:11px;font-weight:800;color:#6484a6}
+.anime-card{display:grid;grid-template-columns:1fr 1fr;gap:16px}.anime-feature{background:linear-gradient(145deg,#f4f0ff,#fffaf0);border:1px solid #fff;border-radius:25px;padding:23px;box-shadow:var(--shadow)}.anime-feature .symbol{font-size:29px;margin-bottom:12px;display:block}.anime-feature h3{font:900 20px Nunito,sans-serif;margin-bottom:8px}.anime-feature p{font-size:12px;color:var(--muted);line-height:1.8;margin-bottom:0}.anime-feature .chips .chip{background:#fff}
+.journey-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.empty-card{min-height:190px;display:flex;flex-direction:column;justify-content:space-between}.empty-card .big{font-size:27px}.empty-card h3{font:900 19px Nunito,sans-serif;margin:12px 0 7px}.empty-card p{font-size:12px;line-height:1.8;color:var(--muted);margin-bottom:0}.status{align-self:flex-start;background:#edf6ff;color:#6d91b8;border-radius:99px;padding:7px 10px;font-size:10px;font-weight:900}
+.footer{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:35px 0 42px;color:#879bb3;font-size:11px}.footer strong{color:#6485a6}.top{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#fffaf0;border:1px solid white;color:#5f8fc0}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,18px);opacity:0;pointer-events:none;background:#2d4c70;color:white;padding:12px 17px;border-radius:99px;font-size:12px;z-index:30;box-shadow:var(--shadow);transition:.25s}.toast.show{opacity:1;transform:translate(-50%,0)}
+.reveal{opacity:0;transform:translateY(17px);transition:opacity .7s ease,transform .7s ease}.reveal.visible{opacity:1;transform:none}
+@keyframes float{0%,100%{translate:0 0}50%{translate:0 -9px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}}
+@media(max-width:760px){.shell{width:calc(100% - 28px)}.nav{margin:0 calc((28px - 100vw)/2);padding:12px 14px}.nav-links{gap:12px}.nav-links a:nth-child(2){display:none}.sound-btn{padding:9px}.hero{grid-template-columns:1fr;padding:43px 0 30px;gap:0}.stage{min-height:340px}.halo{width:245px;height:245px}.ring{width:300px;height:250px}.ring.r2{width:250px;height:300px}.castle-art{width:300px}.section{padding:35px 0}.section-head{display:block}.section-desc{margin-top:12px}.about-grid,.journey-grid,.anime-card{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.interest{display:grid;grid-template-columns:52px 1fr;column-gap:13px}.iconbox{grid-row:span 3;margin:0}.interest h3{margin:2px 0 6px}.interest p{margin:0}.chips{margin-top:7px}.quote-box{padding:23px}.quote-flower{font-size:55px}.footer{padding-bottom:27px}}
+</style>
 </head>
 <body>
-  <div class="shell">
-    <nav class="nav" aria-label="Điều hướng chính">
-      <a class="brand" href="#home"><span class="brand-mark">🦊</span><span>tlea's den<span style="color:#70aee8">.</span></span></a>
-      <div class="nav-links">
-        <a href="#about">Về tớ</a>
-        <a href="#interests">Sở thích</a>
-        <a class="nav-pill" href="#little-note">Ghé góc nhỏ ↗</a>
-      </div>
-    </nav>
-
-    <main>
-      <section class="hero" id="home">
-        <div>
-          <div class="eyebrow"><span class="dot"></span> welcome to my little world</div>
-          <h1>Hi, I'm<br><span class="name">Tlea.</span> <span aria-hidden="true">☁️</span></h1>
-          <p class="hero-copy">Một chiếc web nhỏ xíu để giới thiệu về tớ. Tớ thích <strong>lập trình, khám phá những điều mới</strong>, những gam xanh dịu mắt và các bé cáo có chiếc đuôi bông bông. 🦊</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#about">Khám phá về tớ <span>↘</span></a>
-            <button class="btn btn-soft" id="fox-button" type="button">Gọi cáo nhỏ <span>✦</span></button>
-          </div>
-          <p class="tiny-note"><span>✦</span> currently dreaming in baby blue &amp; bits of code</p>
-        </div>
-
-        <div class="art-stage" aria-label="Minh họa cáo màu cam dễ thương trên nền xanh baby">
-          <div class="orbit one"></div><div class="orbit two"></div><div class="blob"></div>
-          <span class="spark s1">✦</span><span class="spark s2">✧</span><span class="spark s3">✦</span>
-          <div class="float-tag tag-top">૮ ˶ᵔ ᵕ ᵔ˶ ა · cozy corner</div>
-          <div class="float-tag tag-bottom">little fox, big dreams ♡</div>
-          <svg class="fox-main" viewBox="0 0 360 350" role="img" aria-label="Cáo chibi màu cam đang ngồi">
-            <defs>
-              <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f2b47c"/><stop offset="1" stop-color="#d9854e"/></linearGradient>
-              <linearGradient id="tail" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f0b17b"/><stop offset="1" stop-color="#c87545"/></linearGradient>
-            </defs>
-            <ellipse cx="185" cy="313" rx="106" ry="15" fill="#6aa6d5" opacity=".18"/>
-            <path d="M222 245 C296 220 320 266 296 294 C280 314 240 301 221 281 C208 268 205 255 222 245Z" fill="url(#tail)"/>
-            <path d="M267 275 C287 267 301 278 299 291 C285 305 267 298 257 287Z" fill="#fff5e9"/>
-            <path d="M112 122 L93 42 Q91 31 104 39 L153 78Z" fill="#c87545" stroke="#9d5738" stroke-width="3" stroke-linejoin="round"/>
-            <path d="M248 122 L270 42 Q272 31 258 39 L208 78Z" fill="#c87545" stroke="#9d5738" stroke-width="3" stroke-linejoin="round"/>
-            <path d="M111 93 L104 55 L133 81Z" fill="#f5c0b3"/><path d="M251 93 L260 55 L230 81Z" fill="#f5c0b3"/>
-            <path d="M101 127 C103 82 142 66 181 70 C226 67 260 91 262 130 C266 170 239 201 181 203 C126 203 96 171 101 127Z" fill="url(#fur)" stroke="#9d5738" stroke-width="3"/>
-            <path d="M114 140 C129 120 155 125 180 149 C204 124 234 120 249 140 C246 176 219 190 181 190 C144 190 117 174 114 140Z" fill="#fff3e3"/>
-            <ellipse cx="145" cy="130" rx="7" ry="10" fill="#493b3b"/><ellipse cx="217" cy="130" rx="7" ry="10" fill="#493b3b"/>
-            <circle cx="147" cy="127" r="2.5" fill="#fff"/><circle cx="219" cy="127" r="2.5" fill="#fff"/>
-            <ellipse cx="128" cy="148" rx="10" ry="6" fill="#ef9b91" opacity=".65"/><ellipse cx="235" cy="148" rx="10" ry="6" fill="#ef9b91" opacity=".65"/>
-            <path d="M174 148 Q181 142 188 148 Q185 156 181 156 Q177 156 174 148Z" fill="#6e4a42"/>
-            <path d="M181 155 Q175 165 168 159 M181 155 Q187 165 194 159" fill="none" stroke="#6e4a42" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M139 211 Q181 192 224 211 Q251 229 249 277 Q246 301 217 303 L145 303 Q116 301 113 277 Q111 230 139 211Z" fill="url(#fur)" stroke="#9d5738" stroke-width="3"/>
-            <path d="M148 211 Q181 229 213 211 Q232 239 217 281 Q181 299 145 281 Q130 240 148 211Z" fill="#fff3e3"/>
-            <ellipse cx="145" cy="297" rx="31" ry="12" fill="#f2b47c" stroke="#9d5738" stroke-width="3"/>
-            <ellipse cx="217" cy="297" rx="31" ry="12" fill="#f2b47c" stroke="#9d5738" stroke-width="3"/>
-            <path d="M137 235 Q124 251 140 266 M225 235 Q239 251 222 266" fill="none" stroke="#9d5738" stroke-width="3" stroke-linecap="round"/>
-            <path d="M164 82 Q181 74 197 82" stroke="#f7d3a8" stroke-width="5" stroke-linecap="round" fill="none"/>
-            <path d="M83 111 l-8 -8 M279 111 l8 -8 M89 172 l-11 2 M274 172 l11 2" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".8"/>
-            <path d="M181 30 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4Z" fill="#fff" opacity=".9"/>
-          </svg>
-          <svg class="fox-mini" viewBox="0 0 140 145" role="img" aria-label="Cáo con nhỏ màu cam">
-            <path d="M81 88 C120 66 137 91 120 113 C109 127 88 113 77 102Z" fill="#c87545"/>
-            <path d="M107 101 Q124 92 124 108 Q115 121 104 111Z" fill="#fff3e3"/>
-            <path d="M26 51 L18 13 Q18 7 26 13 L51 35Z" fill="#d98750" stroke="#9d5738" stroke-width="2.5"/>
-            <path d="M83 36 L108 12 Q115 8 112 17 L101 55Z" fill="#d98750" stroke="#9d5738" stroke-width="2.5"/>
-            <path d="M27 34 L26 20 L39 34Z M94 34 L107 20 L102 40Z" fill="#f5c0b3"/>
-            <path d="M22 51 Q26 26 66 28 Q103 28 105 56 Q106 91 64 94 Q24 91 22 51Z" fill="#e99a60" stroke="#9d5738" stroke-width="2.5"/>
-            <path d="M33 58 Q48 49 64 65 Q80 49 96 58 Q91 85 64 84 Q38 84 33 58Z" fill="#fff3e3"/>
-            <ellipse cx="47" cy="53" rx="4" ry="6" fill="#493b3b"/><ellipse cx="81" cy="53" rx="4" ry="6" fill="#493b3b"/>
-            <path d="M60 67 Q64 63 68 67 Q66 72 64 72Z" fill="#6e4a42"/>
-            <path d="M64 72 Q59 78 55 73 M64 72 Q69 78 73 73" fill="none" stroke="#6e4a42" stroke-width="1.8" stroke-linecap="round"/>
-            <ellipse cx="40" cy="66" rx="6" ry="3.5" fill="#ef9b91"/><ellipse cx="88" cy="66" rx="6" ry="3.5" fill="#ef9b91"/>
-            <path d="M39 95 Q64 83 88 95 L96 125 Q64 138 32 125Z" fill="#e99a60" stroke="#9d5738" stroke-width="2.5"/>
-            <path d="M48 94 Q64 106 80 94 L78 124 Q64 130 50 124Z" fill="#fff3e3"/>
-            <ellipse cx="46" cy="124" rx="18" ry="7" fill="#f2b47c" stroke="#9d5738" stroke-width="2.5"/><ellipse cx="81" cy="124" rx="18" ry="7" fill="#f2b47c" stroke="#9d5738" stroke-width="2.5"/>
-          </svg>
-        </div>
-      </section>
-
-      <section class="section" id="about">
-        <div class="section-head">
-          <div><div class="kicker">01 / a little about me</div><h2>Đôi điều về tớ<span style="color:#79b9ef">.</span></h2></div>
-          <p class="section-desc">Không cần phải thật đặc biệt mới có một thế giới của riêng mình. Đây là phiên bản nhỏ xinh của tớ.</p>
-        </div>
-        <div class="about-grid">
-          <article class="card about-card">
-            <span class="card-label">the person behind the screen</span>
-            <h3>Một người đang học hỏi, thử nghiệm và lớn lên từng chút một.</h3>
-            <p>Tớ là học sinh thích những thứ có logic, thích tự tay làm ra sản phẩm của riêng mình và luôn tò mò xem “nếu thử cách khác thì sao?”. Hiện tại, tớ đang gom nhặt kiến thức để biến ý tưởng thành những dòng code thật sự.</p>
-            <span class="watermark" aria-hidden="true">☁️</span>
-          </article>
-          <div class="facts">
-            <div class="fact"><span class="fact-icon">💻</span><strong>Code & create</strong><span>Học lập trình, thích giải quyết vấn đề.</span></div>
-            <div class="fact"><span class="fact-icon">🩵</span><strong>Baby blue</strong><span>Màu xanh dịu mắt là chân ái.</span></div>
-            <div class="fact"><span class="fact-icon">🦊</span><strong>Fox enthusiast</strong><span>Cáo chibi hay cáo thường đều đáng yêu.</span></div>
-            <div class="fact"><span class="fact-icon">🌱</span><strong>Work in progress</strong><span>Chậm một chút cũng được, miễn là tiến lên.</span></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="interests">
-        <div class="section-head">
-          <div><div class="kicker">02 / things I love</div><h2>Những chiếc “hệ” của tớ<span style="color:#79b9ef">.</span></h2></div>
-          <p class="section-desc">Một vài thứ làm tớ thấy vui, có động lực và muốn tìm hiểu sâu hơn.</p>
-        </div>
-        <div class="interest-grid">
-          <article class="interest">
-            <span class="emoji">⌨️</span><h3>Programming</h3>
-            <p>C++ là điểm bắt đầu của hành trình. Tớ muốn luyện tư duy thuật toán và tạo ra những dự án nho nhỏ của riêng mình.</p>
-            <div><span class="chip">C++</span><span class="chip">Problem solving</span></div>
-          </article>
-          <article class="interest">
-            <span class="emoji">🧩</span><h3>Logic & learning</h3>
-            <p>Thích cảm giác một bài khó bỗng sáng tỏ sau khi kiên nhẫn tháo từng nút thắt.</p>
-            <div><span class="chip">Curiosity</span><span class="chip">STEM</span></div>
-          </article>
-          <article class="interest">
-            <span class="emoji">🦊</span><h3>Soft little things</h3>
-            <p>Góc xanh baby, mây mềm, những bé cáo cam và một chiếc không gian gọn gàng dễ thương.</p>
-            <div><span class="chip">Baby blue</span><span class="chip">Foxes</span></div>
-          </article>
-        </div>
-      </section>
-
-      <section class="section" id="little-note">
-        <div class="fox-banner">
-          <div><div class="kicker">03 / a tiny reminder</div><h2>Small steps still count. 🩵</h2><p>Tớ chưa cần biết hết mọi thứ ngay bây giờ. Cứ học thêm một chút, thử thêm một lần, rồi một ngày nhìn lại sẽ thấy mình đã đi xa hơn tưởng tượng.</p></div>
-          <svg class="banner-fox" viewBox="0 0 140 145" role="img" aria-label="Cáo nhỏ ngồi cạnh lời nhắn">
-            <path d="M82 87 C120 68 137 91 120 113 C108 127 88 113 77 102Z" fill="#c87545"/><path d="M107 101 Q124 92 124 108 Q115 121 104 111Z" fill="#fff3e3"/>
-            <path d="M26 51 L18 13 Q18 7 26 13 L51 35Z" fill="#d98750" stroke="#9d5738" stroke-width="2.5"/><path d="M83 36 L108 12 Q115 8 112 17 L101 55Z" fill="#d98750" stroke="#9d5738" stroke-width="2.5"/>
-            <path d="M27 34 L26 20 L39 34Z M94 34 L107 20 L102 40Z" fill="#f5c0b3"/><path d="M22 51 Q26 26 66 28 Q103 28 105 56 Q106 91 64 94 Q24 91 22 51Z" fill="#e99a60" stroke="#9d5738" stroke-width="2.5"/>
-            <path d="M33 58 Q48 49 64 65 Q80 49 96 58 Q91 85 64 84 Q38 84 33 58Z" fill="#fff3e3"/><ellipse cx="47" cy="53" rx="4" ry="6" fill="#493b3b"/><ellipse cx="81" cy="53" rx="4" ry="6" fill="#493b3b"/><path d="M60 67 Q64 63 68 67 Q66 72 64 72Z" fill="#6e4a42"/><path d="M64 72 Q59 78 55 73 M64 72 Q69 78 73 73" fill="none" stroke="#6e4a42" stroke-width="1.8" stroke-linecap="round"/>
-            <path d="M39 95 Q64 83 88 95 L96 125 Q64 138 32 125Z" fill="#e99a60" stroke="#9d5738" stroke-width="2.5"/><path d="M48 94 Q64 106 80 94 L78 124 Q64 130 50 124Z" fill="#fff3e3"/><ellipse cx="46" cy="124" rx="18" ry="7" fill="#f2b47c" stroke="#9d5738" stroke-width="2.5"/><ellipse cx="81" cy="124" rx="18" ry="7" fill="#f2b47c" stroke="#9d5738" stroke-width="2.5"/>
-          </svg>
-        </div>
-      </section>
-    </main>
-
-    <footer>
-      <div>Made with <span style="color:#df9a7a">♥</span> &amp; a little bit of code · <strong>Tlea's Little Den</strong></div>
-      <a class="back-top" href="#home" aria-label="Quay về đầu trang">↑</a>
-    </footer>
-  </div>
-  <div class="toast" id="toast" role="status" aria-live="polite">Cáo nhỏ đã xuất hiện! 🦊</div>
-  <script>
-    const button = document.getElementById('fox-button');
-    const toast = document.getElementById('toast');
-    let toastTimer;
-    button.addEventListener('click', () => {
-      toast.classList.add('show');
-      button.innerHTML = 'Cáo đã tới! <span>♡</span>';
-      window.clearTimeout(toastTimer);
-      toastTimer = window.setTimeout(() => {
-        toast.classList.remove('show');
-        button.innerHTML = 'Gọi cáo nhỏ <span>✦</span>';
-      }, 2200);
-    });
-  </script>
+<div class="shell">
+<nav class="nav" aria-label="Điều hướng">
+<a class="brand" href="#home"><span class="brand-mark">✿</span><span>TLeaa's Little Den<span style="color:#82b7e6">.</span></span></a>
+<div class="nav-links"><a href="#about">Về tớ</a><a href="#interests">Sở thích</a><a href="#anime">Anime</a><a href="#journey">Hành trình</a></div>
+<button class="sound-btn" id="soundToggle" type="button" aria-pressed="false">♫ Âm thanh: tắt</button>
+</nav>
+<main>
+<section class="hero" id="home">
+<div>
+<div class="eyebrow"><i></i> a little world, just mine</div>
+<h1>Hi, I'm<br><span>TLeaa.</span> ☁️</h1>
+<p class="lead">Chào mừng đến với chiếc góc nhỏ của tớ! Tớ khá thân thiện, dễ gần và luôn tò mò về những điều mới. Từ <strong>mấy dòng code C++</strong> đến một bộ anime hay, lúc nào cũng có thứ khiến tớ muốn khám phá thêm một chút.</p>
+<div class="actions"><a class="btn primary" href="#about">Khám phá về tớ ↘</a><button class="btn soft" id="helloBtn" type="button">Gửi lời chào ✿</button></div>
+<p class="note"><b>✧</b> blue skies, soft flowers &amp; a brain full of questions</p>
+</div>
+<div class="stage" aria-label="Minh họa fantasy với phép thuật và hoa xanh">
+<div class="halo"></div><div class="ring"></div><div class="ring r2"></div>
+<span class="flower f1">✿</span><span class="flower f2">❀</span><span class="flower f3">✧</span>
+<span class="float-tag tag-a">a little bit curious ♡</span><span class="float-tag tag-b">magic &amp; memories ✦</span>
+<svg class="castle-art" viewBox="0 0 380 340" role="img" aria-label="Minh họa ba nhà thám hiểm fantasy dưới bầu trời xanh">
+<defs><linearGradient id="cape" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b7c8f2"/><stop offset="1" stop-color="#849fd7"/></linearGradient><linearGradient id="robe" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffdf7"/><stop offset="1" stop-color="#dce8f8"/></linearGradient></defs>
+<circle cx="190" cy="155" r="116" fill="#ffffff6b"/><path d="M56 268 Q89 216 132 248 Q180 207 222 247 Q277 207 326 268Z" fill="#b8d8ee" opacity=".8"/>
+<!-- original fantasy traveller silhouettes, not character artwork -->
+<path d="M107 132 L89 84 L127 104 L144 135Z" fill="#c7d6f6" stroke="#718eb9" stroke-width="2"/><path d="M119 125 Q121 103 145 104 Q169 107 169 136 L160 169 L125 168Z" fill="#f0d8c4" stroke="#8f8da7" stroke-width="2"/><path d="M121 132 Q145 151 166 132 L171 214 L115 214Z" fill="url(#robe)" stroke="#9aaac5" stroke-width="2"/><path d="M126 149 Q144 162 163 148 L156 188 L133 188Z" fill="#b5c7eb"/><path d="M127 109 Q139 86 162 103 L170 126 L155 117 L147 130 L133 118 L119 127Z" fill="#d9e3f7" stroke="#8d9fbe" stroke-width="2"/><path d="M131 139 Q138 143 143 140 M153 140 Q158 143 162 139" stroke="#566783" stroke-width="2" fill="none" stroke-linecap="round"/>
+<path d="M183 143 L170 106 L199 118 L215 144Z" fill="#6d7da7" stroke="#566a94" stroke-width="2"/><path d="M184 135 Q190 111 211 119 Q230 125 227 149 L220 169 L188 166Z" fill="#f1d8c7" stroke="#9e8f9b" stroke-width="2"/><path d="M184 151 Q205 167 226 148 L242 223 L176 223Z" fill="url(#cape)" stroke="#738ab5" stroke-width="2"/><path d="M190 127 Q199 102 222 120 L232 139 L214 134 L203 141 L188 138Z" fill="#8e9fc4" stroke="#63799f" stroke-width="2"/><path d="M194 145 Q200 149 204 146 M214 146 Q220 150 224 145" stroke="#566783" stroke-width="2" fill="none" stroke-linecap="round"/>
+<path d="M258 156 L244 111 L277 128 L290 159Z" fill="#d7c2a7" stroke="#a18a77" stroke-width="2"/><path d="M253 151 Q257 127 278 131 Q298 135 296 158 L286 178 L258 176Z" fill="#f0d8c5" stroke="#aa958c" stroke-width="2"/><path d="M253 166 Q275 181 296 163 L310 225 L245 225Z" fill="#f6f0e4" stroke="#b6aa9a" stroke-width="2"/><path d="M256 137 Q263 116 285 129 L301 150 L283 145 L273 152 L255 147Z" fill="#b7a7cc" stroke="#9486a8" stroke-width="2"/><path d="M262 155 Q268 159 273 155 M281 156 Q287 160 291 155" stroke="#6f6173" stroke-width="2" fill="none" stroke-linecap="round"/>
+<path d="M79 251 Q190 229 310 251" stroke="#fff" stroke-width="3" opacity=".8" fill="none"/><g fill="#fffaf0" stroke="#9fc4e6" stroke-width="1.5"><path d="M77 91 l4 9 9 4 -9 4 -4 9 -4 -9 -9 -4 9 -4Z"/><path d="M300 86 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3Z"/><circle cx="92" cy="191" r="4"/><circle cx="310" cy="190" r="3"/></g>
+<g transform="translate(60 260)" fill="#e6eafa" stroke="#9eb7dc"><circle cx="0" cy="0" r="5"/><ellipse cx="0" cy="-8" rx="4" ry="7"/><ellipse cx="8" cy="-2" rx="4" ry="7" transform="rotate(60 8 -2)"/><ellipse cx="5" cy="7" rx="4" ry="7" transform="rotate(130 5 7)"/><ellipse cx="-5" cy="7" rx="4" ry="7" transform="rotate(220 -5 7)"/><ellipse cx="-8" cy="-2" rx="4" ry="7" transform="rotate(300 -8 -2)"/></g>
+</svg>
+</div>
+</section>
+<section class="section reveal" id="about">
+<div class="section-head"><div><div class="kicker">01 / behind the screen</div><h2>Một chút về tớ<em>.</em></h2></div><p class="section-desc">Một người vẫn đang tìm hiểu bản thân, thử điều mới và góp nhặt từng mảnh nhỏ tạo nên thế giới riêng.</p></div>
+<div class="about-grid">
+<article class="card about-main"><span class="mini-label">the person behind the screen</span><h3>Hướng nội hướng ngoại tùy hôm, nhưng tò mò thì gần như luôn bật.</h3><p>Tớ có thể khá dễ gần, đôi khi hơi thiếu kiên nhẫn và nóng tính nhẹ. Bù lại, tớ thích tìm hiểu cách mọi thứ vận hành, đặc biệt là công nghệ và lập trình. Không cần lúc nào cũng hoàn hảo, miễn là vẫn chịu học và chịu thử.</p><span class="watermark" aria-hidden="true">☁</span></article>
+<div class="facts">
+<div class="fact"><span class="ico">💻</span><b>Code curious</b><span>C++ và lập trình là vùng tò mò yêu thích.</span></div>
+<div class="fact"><span class="ico">➗</span><b>Math-ish</b><span>Toán cũng có sức hút riêng, nhất là lúc tìm ra lời giải.</span></div>
+<div class="fact"><span class="ico">🎧</span><b>Music on</b><span>Ballad, melodic rap và nhạc có giai điệu cuốn.</span></div>
+<div class="fact"><span class="ico">🌷</span><b>Soft palette</b><span>Xanh baby, kem và hoa dịu dàng là chân ái.</span></div>
+</div>
+</div>
+</section>
+<section class="section reveal" id="interests">
+<div class="section-head"><div><div class="kicker">02 / things I enjoy</div><h2>Những chiếc “hệ” của tớ<em>.</em></h2></div><p class="section-desc">Một playlist sở thích hơi lộn xộn, nhưng là lộn xộn có gu.</p></div>
+<div class="cards">
+<article class="interest"><span class="iconbox">⌨️</span><h3>Coding &amp; programming</h3><p>Tớ khá hứng thú với Tin học, nhất là C++. Muốn luyện tư duy logic, hiểu sâu hơn và tự tay hoàn thành những dự án của mình.</p><div class="chips"><span class="chip">C++</span><span class="chip">Tin học</span><span class="chip">Toán</span></div></article>
+<article class="interest"><span class="iconbox">📚</span><h3>Stories &amp; screen time</h3><p>Đọc truyện, xem anime và phim trinh thám là cách tớ đổi gió. Conan, Doctor X và Kimetsu no Yaiba nằm trong danh sách yêu thích.</p><div class="chips"><span class="chip">Conan</span><span class="chip">Doctor X</span><span class="chip">Kimetsu no Yaiba</span></div></article>
+<article class="interest"><span class="iconbox">🎵</span><h3>Music mood</h3><p>Thường nghiêng về ballad, melodic rap và những bài có giai điệu bắt tai. Gu nhạc có thể đổi theo mood, miễn nghe cuốn là được.</p><div class="chips"><span class="chip">Ballad</span><span class="chip">Melodic rap</span><span class="chip">Pop</span></div></article>
+</div>
+<div class="music-list" aria-label="Nghệ sĩ yêu thích"><span class="music-tag">CAPTAIN BOY</span><span class="music-tag">CORTIS</span><span class="music-tag">Charlie Puth</span><span class="music-tag">Bray</span><span class="music-tag">và những bài tình cờ lọt playlist ♡</span></div>
+</section>
+<section class="section reveal" id="anime">
+<div class="section-head"><div><div class="kicker">03 / anime corner</div><h2>Góc phép thuật &amp; ký ức<em>.</em></h2></div><p class="section-desc">Một góc dành cho những chuyến phiêu lưu, phép thuật và các nhân vật khiến mình nhớ mãi.</p></div>
+<div class="anime-card">
+<article class="anime-feature"><span class="symbol">✧ 🪄</span><h3>Frieren: Beyond Journey's End</h3><p>Thích thế giới fantasy có phép thuật, hành trình dài và những khoảnh khắc lặng lẽ mà đọng lại lâu. Frieren, Fern và Stark là bộ ba tớ muốn đặt trong góc anime này.</p><div class="chips"><span class="chip">Fantasy</span><span class="chip">Adventure</span><span class="chip">Frieren</span><span class="chip">Fern</span><span class="chip">Stark</span></div></article>
+<article class="anime-feature"><span class="symbol">🌸 📺</span><h3>Những thế giới khác</h3><p>Conan cho những vụ án cần suy luận, Doctor X cho không khí y khoa căng thẳng, còn Kimetsu no Yaiba đem đến những trận chiến và tình đồng đội đáng nhớ.</p><div class="chips"><span class="chip">Mystery</span><span class="chip">Medical drama</span><span class="chip">Action</span></div></article>
+</div>
+</section>
+<section class="section reveal" id="journey">
+<div class="section-head"><div><div class="kicker">04 / work in progress</div><h2>Hành trình đang viết<em>.</em></h2></div><p class="section-desc">Chưa cần tô điểm bằng thành tích chưa có. Góc này sẽ lớn lên cùng những gì tớ thật sự làm được.</p></div>
+<div class="journey-grid">
+<article class="card empty-card"><div><span class="big">🏅</span><h3>Thành tích &amp; chứng chỉ</h3><p>Đang để dành chỗ cho các cột mốc học tập, chứng chỉ và điều đáng tự hào sẽ được bổ sung sau.</p></div><span class="status">Sẽ cập nhật khi có</span></article>
+<article class="card empty-card"><div><span class="big">🧪</span><h3>Dự án cá nhân</h3><p>Từ những bài tập C++ đầu tiên đến sản phẩm tự tay xây dựng, mỗi dự án đều có thể bắt đầu từ một ý tưởng nhỏ.</p></div><span class="status">Đang mở trang đầu</span></article>
+</div>
+</section>
+<section class="section reveal" id="little-note"><div class="quote-box"><div><div class="kicker">05 / a note to myself</div><blockquote>“I have my own pace, my own plans, and absolutely no need to fit your little box.”</blockquote><p>Tớ có nhịp điệu riêng, kế hoạch riêng, và chẳng cần ép mình vừa với khuôn của ai cả. ✿</p></div><div class="quote-flower" aria-hidden="true">❀</div></div></section>
+</main>
+<footer class="footer"><div>Made with <span style="color:#c49dbb">♥</span> &amp; a little bit of code · <strong>TLeaa's Little Den</strong></div><a class="top" href="#home" aria-label="Về đầu trang">↑</a></footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite">Lời chào đã gửi tới góc nhỏ này. ✿</div>
+<script>
+const toast=document.getElementById('toast');let toastTimer;
+document.getElementById('helloBtn').addEventListener('click',()=>{toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),2200)});
+const revealItems=document.querySelectorAll('.reveal');
+if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}}),{threshold:.12});revealItems.forEach(item=>observer.observe(item))}else{revealItems.forEach(item=>item.classList.add('visible'))}
+let audioContext=null,oscillators=[],soundOn=false;
+const soundButton=document.getElementById('soundToggle');
+soundButton.addEventListener('click',async()=>{try{if(!soundOn){const AudioCtx=window.AudioContext||window.webkitAudioContext;if(!AudioCtx){toast.textContent='Trình duyệt chưa hỗ trợ âm thanh này.';toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),2200);return}audioContext=audioContext||new AudioCtx();await audioContext.resume();const master=audioContext.createGain();master.gain.value=.018;master.connect(audioContext.destination);[261.63,329.63,392].forEach((frequency,index)=>{const osc=audioContext.createOscillator();const gain=audioContext.createGain();osc.type='sine';osc.frequency.value=frequency;gain.gain.value=index===1?.45:.25;osc.connect(gain);gain.connect(master);osc.start();oscillators.push(osc)});soundOn=true;soundButton.textContent='♫ Âm thanh: bật';soundButton.setAttribute('aria-pressed','true')}else{oscillators.forEach(osc=>{try{osc.stop()}catch(e){}});oscillators=[];soundOn=false;soundButton.textContent='♫ Âm thanh: tắt';soundButton.setAttribute('aria-pressed','false')}}catch(error){soundButton.textContent='♫ Thử lại âm thanh'}})
+</script>
 </body>
 </html>
