@@ -81,7 +81,7 @@ h1,h2,h3,p{margin-top:0}h1{font:900 clamp(48px,7vw,78px)/.98 Nunito,sans-serif;l
 <nav class="nav" aria-label="Điều hướng">
 <a class="brand" href="#home"><span class="brand-mark">✿</span><span>Trúc Ly and Some Things About Me<span style="color:#82b7e6">.</span></span></a>
 <div class="nav-links"><a href="#about">Về tớ</a><a href="#interests">Sở thích</a><a href="#anime">Anime</a><a href="#journey">Hành trình</a></div>
-<button class="sound-btn" id="soundToggle" type="button" aria-pressed="false">♫ Bật âm thanh</button>
+<button class="sound-btn" id="soundToggle" type="button" aria-pressed="false">♫ Bật âm thanh nền</button>
 </nav>
 <main>
 <section class="hero" id="home">
@@ -279,7 +279,57 @@ listenBtn.addEventListener('click',()=>{
   window.open('https://www.youtube.com/results?search_query='+encodeURIComponent(selectedTrack.query),'_blank','noopener,noreferrer');
 });
 const soundButton=document.getElementById('soundToggle');
-soundButton.addEventListener('click',async()=>{try{if(!soundOn){const AudioCtx=window.AudioContext||window.webkitAudioContext;if(!AudioCtx){toast.textContent='Trình duyệt chưa hỗ trợ âm thanh này.';toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),2200);return}audioContext=audioContext||new AudioCtx();await audioContext.resume();const master=audioContext.createGain();master.gain.value=.018;master.connect(audioContext.destination);[261.63,329.63,392].forEach((frequency,index)=>{const osc=audioContext.createOscillator();const gain=audioContext.createGain();osc.type='sine';osc.frequency.value=frequency;gain.gain.value=index===1?.45:.25;osc.connect(gain);gain.connect(master);osc.start();oscillators.push(osc)});soundOn=true;soundButton.textContent='♫ Tắt âm thanh';soundButton.setAttribute('aria-pressed','true')}else{oscillators.forEach(osc=>{try{osc.stop()}catch(e){}});oscillators=[];soundOn=false;if(audioContext)await audioContext.suspend();soundButton.textContent='♫ Bật âm thanh';soundButton.setAttribute('aria-pressed','false')}}catch(error){soundButton.textContent='♫ Thử lại âm thanh'}})
-</script>
+function stopAllPageAudio(){
+  document.querySelectorAll('iframe').forEach(frame=>{
+    try{
+      frame.contentWindow.postMessage(JSON.stringify({event:'command',func:'pauseVideo',args:[]}), '*');
+      frame.contentWindow.postMessage(JSON.stringify({event:'command',func:'stopVideo',args:[]}), '*');
+    }catch(e){}
+  });
+  oscillators.forEach(osc=>{try{osc.stop()}catch(e){}});
+  oscillators=[];
+  soundOn=false;
+  if(audioContext)audioContext.suspend().catch(()=>{});
+  soundButton.textContent='♫ Bật âm thanh nền';
+  soundButton.setAttribute('aria-pressed','false');
+}
+soundButton.addEventListener('click',async()=>{
+  try{
+    if(soundOn){
+      stopAllPageAudio();
+      soundButton.textContent='♫ Bật âm thanh nền';
+    }else{
+      const AudioCtx=window.AudioContext||window.webkitAudioContext;
+      if(!AudioCtx){
+        toast.textContent='Trình duyệt chưa hỗ trợ âm thanh này.';
+        toast.classList.add('show');
+        setTimeout(()=>toast.classList.remove('show'),2200);
+        return;
+      }
+      audioContext=audioContext||new AudioCtx();
+      await audioContext.resume();
+      const master=audioContext.createGain();
+      master.gain.value=.018;
+      master.connect(audioContext.destination);
+      [261.63,329.63,392].forEach((frequency,index)=>{
+        const osc=audioContext.createOscillator();
+        const gain=audioContext.createGain();
+        osc.type='sine';
+        osc.frequency.value=frequency;
+        gain.gain.value=index===1?.45:.25;
+        osc.connect(gain);
+        gain.connect(master);
+        osc.start();
+        oscillators.push(osc);
+      });
+      soundOn=true;
+      soundButton.textContent='♫ Dừng nhạc / âm thanh';
+      soundButton.setAttribute('aria-pressed','true');
+    }
+  }catch(error){
+    stopAllPageAudio();
+    soundButton.textContent='♫ Bật âm thanh nền';
+  }
+});</script>
 </body>
 </html>
