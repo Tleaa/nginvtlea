@@ -1,10 +1,20 @@
-# Tlea's Little Den 🦊
+# TLeaa's Little Den ✿
 
-A personal introduction website with a baby-blue palette, soft cloud details, and custom fox illustrations.
+A personal introduction website with a soft baby-blue and cream palette, flower details, gentle motion, and a fantasy-anime corner inspired by *Frieren: Beyond Journey's End*.
 
 ## Preview
 
 Open **[index.html](./index.html)** to view the website.
+
+## Features
+
+- Responsive layout for desktop and mobile
+- Soft blue, cream, and lavender palette with flower details
+- Scroll reveal animations and reduced-motion support
+- Interactive greeting button
+- Optional gentle ambient tones that can be switched on/off
+- Sections for introduction, interests, music, anime, achievements, and personal projects
+- Achievement and project cards clearly marked for future updates rather than inventing accomplishments
 
 ## Publish with GitHub Pages
 
@@ -17,6 +27,6 @@ Open **[index.html](./index.html)** to view the website.
 ## Built with
 
 - HTML, CSS, and vanilla JavaScript
-- Responsive layout and reduced-motion support
-- Custom inline SVG fox illustrations
-- Baby blue, ice blue, and warm fox-orange color palette
+- Inline SVG illustration
+- Google Fonts (DM Sans and Nunito)
+
