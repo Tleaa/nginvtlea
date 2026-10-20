@@ -52,6 +52,28 @@ h1,h2,h3,p{margin-top:0}h1{font:900 clamp(48px,7vw,78px)/.98 Nunito,sans-serif;l
 .modal-footnote{font-size:10px;color:#8a9db4;line-height:1.6;margin:12px 0 0}
 @media(max-width:440px){.music-modal{padding:19px;border-radius:23px}.modal-picks{grid-template-columns:1fr}.modal-actions{flex-direction:column}}
 
+
+/* Embedded music player inside the welcome popup */
+.cp-playlist{margin-top:15px;padding:14px;background:#edf5ffb8;border:1px solid #fff;border-radius:19px}
+.cp-playlist-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.cp-playlist-head strong{font:900 14px Nunito,sans-serif}
+.cp-playlist-head small{font-size:10px;color:var(--muted)}
+.cp-track-list{display:grid;gap:7px}
+.cp-track{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;text-align:left;border:1px solid transparent;border-radius:13px;background:#ffffffc9;color:var(--ink);cursor:pointer}
+.cp-track[aria-pressed=true]{background:#dceeff;border-color:#8bbfe9}
+.cp-track-num{width:25px;height:25px;flex:0 0 25px;display:grid;place-items:center;border-radius:9px;background:#eaf3ff;color:#648db7;font-size:10px;font-weight:900}
+.cp-track-copy{flex:1;min-width:0}
+.cp-track-copy strong{display:block;font-size:11px}
+.cp-track-copy small{display:block;font-size:10px;color:var(--muted);margin-top:3px}
+.cp-track-play{font-size:13px;color:#5d9bd4}
+.cp-player-wrap{margin-top:12px;border-radius:15px;overflow:hidden;background:#d9eaff;border:1px solid #fff}
+.cp-player-frame{display:block;width:100%;aspect-ratio:16/9;border:0;background:#d9eaff}
+.cp-player-controls{display:flex;align-items:center;gap:8px;padding:10px;background:#fffaf0}
+.cp-control{border:0;border-radius:11px;background:#5d9bd4;color:white;padding:9px 12px;font-size:11px;font-weight:900;cursor:pointer}
+.cp-control.secondary{background:#e6f1fc;color:#5f82a6}
+.cp-player-status{font-size:10px;color:var(--muted);line-height:1.5;flex:1}
+.cp-player-note{font-size:10px;color:#8297b0;line-height:1.6;margin:10px 0 0}
+
 </style>
 </head>
 <body>
@@ -142,13 +164,29 @@ h1,h2,h3,p{margin-top:0}h1{font:900 clamp(48px,7vw,78px)/.98 Nunito,sans-serif;l
     <div class="modal-picks" id="modalPicks">
       <button class="modal-pick" type="button" data-song="CAPTAIN BOY" data-query="CAPTAIN BOY official songs" aria-pressed="false"><span class="track-art">🎧</span><span><strong>CAPTAIN BOY</strong><small>V-Pop · catchy</small></span></button>
       <button class="modal-pick" type="button" data-song="CORTIS" data-query="CORTIS official music" aria-pressed="false"><span class="track-art">🩵</span><span><strong>CORTIS</strong><small>Fresh pop mood</small></span></button>
-      <button class="modal-pick" type="button" data-song="Charlie Puth" data-query="Charlie Puth official songs" aria-pressed="false"><span class="track-art">☁️</span><span><strong>Charlie Puth</strong><small>Pop · melody</small></span></button>
+      <button class="modal-pick" type="button" data-song="Charlie Puth" data-query="Charlie Puth official songs" aria-pressed="true"><span class="track-art">☁️</span><span><strong>Charlie Puth</strong><small>Pop · melody</small></span></button>
       <button class="modal-pick" type="button" data-song="Bray" data-query="Bray official songs" aria-pressed="false"><span class="track-art">🎙️</span><span><strong>Bray</strong><small>Melodic rap</small></span></button>
       <button class="modal-pick" type="button" data-song="Ballad mood" data-query="Vietnamese chill ballad playlist" aria-pressed="false"><span class="track-art">🌷</span><span><strong>Ballad mood</strong><small>Nhẹ nhàng, cảm xúc</small></span></button>
       <button class="modal-pick" type="button" data-song="Melodic rap mood" data-query="Vietnamese melodic rap playlist" aria-pressed="false"><span class="track-art">✨</span><span><strong>Melodic rap mood</strong><small>Rap có giai điệu</small></span></button>
     </div>
+
+    <div class="cp-playlist" id="charliePlaylist" hidden>
+      <div class="cp-playlist-head"><strong>Charlie Puth · mini playlist ☁️</strong><small>4 bài gợi ý</small></div>
+      <div class="cp-track-list" id="cpTrackList">
+        <button class="cp-track" type="button" data-video="nfs8NYg7yQM" data-title="Attention" aria-pressed="true"><span class="cp-track-num">01</span><span class="cp-track-copy"><strong>Attention</strong><small>Official music video</small></span><span class="cp-track-play">▶</span></button>
+        <button class="cp-track" type="button" data-video="3AtDnEC4zak" data-title="We Don't Talk Anymore" aria-pressed="false"><span class="cp-track-num">02</span><span class="cp-track-copy"><strong>We Don't Talk Anymore</strong><small>feat. Selena Gomez</small></span><span class="cp-track-play">▶</span></button>
+        <button class="cp-track" type="button" data-video="CwfoyVa980U" data-title="How Long" aria-pressed="false"><span class="cp-track-num">03</span><span class="cp-track-copy"><strong>How Long</strong><small>Official music video</small></span><span class="cp-track-play">▶</span></button>
+        <button class="cp-track" type="button" data-video="BxuY9FET9Y4" data-title="One Call Away" aria-pressed="false"><span class="cp-track-num">04</span><span class="cp-track-copy"><strong>One Call Away</strong><small>Official music video</small></span><span class="cp-track-play">▶</span></button>
+      </div>
+      <div class="cp-player-wrap">
+        <iframe class="cp-player-frame" id="cpPlayer" title="Charlie Puth music player" src="https://www.youtube-nocookie.com/embed/nfs8NYg7yQM?enablejsapi=1&controls=1&playsinline=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <div class="cp-player-controls"><button class="cp-control" id="cpPlayBtn" type="button">▶ Phát</button><button class="cp-control secondary" id="cpPauseBtn" type="button">Ⅱ Tạm dừng</button><span class="cp-player-status" id="cpPlayerStatus" aria-live="polite">Đã chọn Attention. Bấm Phát để nghe.</span></div>
+      </div>
+      <p class="cp-player-note">Nhạc được phát qua trình phát nhúng YouTube. Nếu một video không cho phép nhúng hoặc bị giới hạn theo khu vực, hãy thử bài khác trong danh sách.</p>
+    </div>
+
     <div class="modal-actions"><button class="btn primary" id="modalListenBtn" type="button" disabled>▶ Nghe thử gợi ý</button><button class="btn soft" id="skipMusicBtn" type="button">Để lát nghe ♡</button></div>
-    <p class="modal-footnote">Bấm “Nghe thử” sẽ mở kết quả nhạc tương ứng trên YouTube. Trình duyệt không tự bật nhạc có tiếng khi vừa vào web, nên cậu được tự chọn nha.</p>
+    <p class="modal-footnote">Chọn Charlie Puth để hiện playlist. Nhạc chỉ phát sau khi người xem chủ động bấm Phát.</p>
   </div>
 </div>
 
@@ -159,7 +197,15 @@ const toast=document.getElementById('toast');let toastTimer;
 const musicModal=document.getElementById('musicModal');
 const modalPickButtons=document.querySelectorAll('.modal-pick');
 const modalListenBtn=document.getElementById('modalListenBtn');
-let modalTrack=null;
+const charliePlaylist=document.getElementById('charliePlaylist');
+const cpPlayer=document.getElementById('cpPlayer');
+const cpTrackButtons=document.querySelectorAll('.cp-track');
+const cpPlayerStatus=document.getElementById('cpPlayerStatus');
+let modalTrack={song:'Charlie Puth',query:'Charlie Puth official songs'};
+let currentCpVideo='nfs8NYg7yQM';
+modalListenBtn.disabled=false;
+modalListenBtn.textContent='↓ Xem playlist';
+charliePlaylist.hidden=false;
 function closeMusicPicker(){musicModal.classList.remove('open');musicModal.setAttribute('aria-hidden','true');document.body.style.overflow=''}
 function openMusicPicker(){musicModal.classList.add('open');musicModal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}
 window.addEventListener('DOMContentLoaded',()=>{window.setTimeout(openMusicPicker,350)});
@@ -171,13 +217,37 @@ modalPickButtons.forEach(button=>button.addEventListener('click',()=>{
   modalPickButtons.forEach(item=>item.setAttribute('aria-pressed','false'));
   button.setAttribute('aria-pressed','true');
   modalTrack={song:button.dataset.song,query:button.dataset.query};
-  modalListenBtn.disabled=false;
-  modalListenBtn.textContent='▶ Nghe '+modalTrack.song;
+  if(modalTrack.song==='Charlie Puth'){
+    charliePlaylist.hidden=false;
+    modalListenBtn.disabled=false;
+    modalListenBtn.textContent='↓ Xem playlist';
+  }else{
+    charliePlaylist.hidden=true;
+    modalListenBtn.disabled=true;
+    modalListenBtn.textContent='Playlist đang được bổ sung';
+  }
 }));
+function chooseCpTrack(button){
+  cpTrackButtons.forEach(item=>{item.setAttribute('aria-pressed','false');item.querySelector('.cp-track-play').textContent='▶'});
+  button.setAttribute('aria-pressed','true');
+  button.querySelector('.cp-track-play').textContent='♪';
+  currentCpVideo=button.dataset.video;
+  cpPlayer.src='https://www.youtube-nocookie.com/embed/'+currentCpVideo+'?enablejsapi=1&controls=1&playsinline=1&rel=0';
+  cpPlayerStatus.textContent='Đã chọn '+button.dataset.title+'. Bấm Phát để nghe.';
+}
+cpTrackButtons.forEach(button=>button.addEventListener('click',()=>chooseCpTrack(button)));
+document.getElementById('cpPlayBtn').addEventListener('click',()=>{
+  cpPlayer.src='https://www.youtube-nocookie.com/embed/'+currentCpVideo+'?enablejsapi=1&controls=1&playsinline=1&rel=0&autoplay=1';
+  cpPlayerStatus.textContent='Đang yêu cầu phát bài đã chọn…';
+});
+document.getElementById('cpPauseBtn').addEventListener('click',()=>{
+  try{cpPlayer.contentWindow.postMessage(JSON.stringify({event:'command',func:'pauseVideo',args:''}),'https://www.youtube-nocookie.com');cpPlayerStatus.textContent='Đã gửi lệnh tạm dừng.'}catch(error){cpPlayerStatus.textContent='Dùng nút tạm dừng ngay trên trình phát nếu cần.'}
+});
 modalListenBtn.addEventListener('click',()=>{
-  if(!modalTrack)return;
-  window.open('https://www.youtube.com/results?search_query='+encodeURIComponent(modalTrack.query),'_blank','noopener,noreferrer');
-  closeMusicPicker();
+  if(modalTrack&&modalTrack.song==='Charlie Puth'){
+    charliePlaylist.hidden=false;
+    document.getElementById('cpTrackList').scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
 });
 
 document.getElementById('helloBtn').addEventListener('click',()=>{toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),2200)});
