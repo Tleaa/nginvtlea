@@ -282,10 +282,12 @@ const soundButton=document.getElementById('soundToggle');
 function stopAllPageAudio(){
   document.querySelectorAll('iframe').forEach(frame=>{
     try{
-      frame.contentWindow.postMessage(JSON.stringify({event:'command',func:'pauseVideo',args:[]}), '*');
-      frame.contentWindow.postMessage(JSON.stringify({event:'command',func:'stopVideo',args:[]}), '*');
+      if(frame.src.includes('youtube')){
+        frame.src='about:blank';
+      }
     }catch(e){}
   });
+  if(cpPlayerStatus)cpPlayerStatus.textContent='Đã dừng nhạc. Chọn bài rồi bấm Phát để nghe lại.';
   oscillators.forEach(osc=>{try{osc.stop()}catch(e){}});
   oscillators=[];
   soundOn=false;
