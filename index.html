@@ -171,13 +171,8 @@ h1,h2,h3,p{margin-top:0}h1{font:900 clamp(48px,7vw,78px)/.98 Nunito,sans-serif;l
     </div>
 
     <div class="cp-playlist" id="charliePlaylist" hidden>
-      <div class="cp-playlist-head"><strong>Charlie Puth · mini playlist ☁️</strong><small>4 bài gợi ý</small></div>
-      <div class="cp-track-list" id="cpTrackList">
-        <button class="cp-track" type="button" data-video="nfs8NYg7yQM" data-title="Attention" aria-pressed="true"><span class="cp-track-num">01</span><span class="cp-track-copy"><strong>Attention</strong><small>Official music video</small></span><span class="cp-track-play">▶</span></button>
-        <button class="cp-track" type="button" data-video="3AtDnEC4zak" data-title="We Don't Talk Anymore" aria-pressed="false"><span class="cp-track-num">02</span><span class="cp-track-copy"><strong>We Don't Talk Anymore</strong><small>feat. Selena Gomez</small></span><span class="cp-track-play">▶</span></button>
-        <button class="cp-track" type="button" data-video="CwfoyVa980U" data-title="How Long" aria-pressed="false"><span class="cp-track-num">03</span><span class="cp-track-copy"><strong>How Long</strong><small>Official music video</small></span><span class="cp-track-play">▶</span></button>
-        <button class="cp-track" type="button" data-video="BxuY9FET9Y4" data-title="One Call Away" aria-pressed="false"><span class="cp-track-num">04</span><span class="cp-track-copy"><strong>One Call Away</strong><small>Official music video</small></span><span class="cp-track-play">▶</span></button>
-      </div>
+      <div class="cp-playlist-head"><strong id="cpPlaylistTitle">Charlie Puth · mini playlist ☁️</strong><small id="cpPlaylistCount">4 bài gợi ý</small></div>
+      <div class="cp-track-list" id="cpTrackList"></div>
       <div class="cp-player-wrap">
         <iframe class="cp-player-frame" id="cpPlayer" title="Charlie Puth music player" src="https://www.youtube-nocookie.com/embed/nfs8NYg7yQM?enablejsapi=1&controls=1&playsinline=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         <div class="cp-player-controls"><button class="cp-control" id="cpPlayBtn" type="button">▶ Phát</button><button class="cp-control secondary" id="cpPauseBtn" type="button">Ⅱ Tạm dừng</button><span class="cp-player-status" id="cpPlayerStatus" aria-live="polite">Đã chọn Attention. Bấm Phát để nghe.</span></div>
@@ -186,7 +181,7 @@ h1,h2,h3,p{margin-top:0}h1{font:900 clamp(48px,7vw,78px)/.98 Nunito,sans-serif;l
     </div>
 
     <div class="modal-actions"><button class="btn primary" id="modalListenBtn" type="button" disabled>▶ Nghe thử gợi ý</button><button class="btn soft" id="skipMusicBtn" type="button">Để lát nghe ♡</button></div>
-    <p class="modal-footnote">Chọn Charlie Puth để hiện playlist. Nhạc chỉ phát sau khi người xem chủ động bấm Phát.</p>
+    <p class="modal-footnote">Chọn nghệ sĩ hoặc mood để xem playlist riêng. Nhạc chỉ phát sau khi người xem chủ động bấm Phát.</p>
   </div>
 </div>
 
@@ -201,11 +196,37 @@ const charliePlaylist=document.getElementById('charliePlaylist');
 const cpPlayer=document.getElementById('cpPlayer');
 const cpTrackButtons=document.querySelectorAll('.cp-track');
 const cpPlayerStatus=document.getElementById('cpPlayerStatus');
+const playlistData={
+  'Charlie Puth':{title:'Charlie Puth · mini playlist ☁️',tracks:[['Attention','nfs8NYg7yQM','Official music video'],["We Don't Talk Anymore",'3AtDnEC4zak','feat. Selena Gomez'],['How Long','CwfoyVa980U','Official music video'],['One Call Away','BxuY9FET9Y4','Official music video']]},
+  'CAPTAIN BOY':{title:'CAPTAIN BOY · mini playlist 🎧',tracks:[['Ừ Thì Chia Tay','ZNVVMlZbzVk','ft. RHYDER · Official MV'],['Giá Mà Anh','b7rh-f36jrE','Official MV']]},
+  'CORTIS':{title:'CORTIS · mini playlist 🩵',tracks:[['GO!','WXS-o57VJ5w','Official MV'],['What You Want','e2OpbOv_JiQ','Official MV']]},
+  'Bray':{title:'Bray · mini playlist 🎙️',tracks:[["Ex’s Hate Me",'95ahbau-rJk','ft. AMEE · Official MV'],['Con Trai Cưng (Piano Version)','l4RyIm0dZyo','K-ICM ft. B Ray · MV Official']]},
+  'Ballad mood':{title:'Ballad mood · soft hours 🌷',tracks:[['One Call Away','BxuY9FET9Y4','Charlie Puth'],["We Don't Talk Anymore",'3AtDnEC4zak','Charlie Puth ft. Selena Gomez'],['What You Want','e2OpbOv_JiQ','CORTIS · softer mood pick']]},
+  'Melodic rap mood':{title:'Melodic rap · late-night vibe ✨',tracks:[["Ex’s Hate Me",'95ahbau-rJk','Bray ft. AMEE'],['Giá Mà Anh','b7rh-f36jrE','CAPTAIN BOY'],['Con Trai Cưng (Piano Version)','l4RyIm0dZyo','K-ICM ft. B Ray']]}
+};
 let modalTrack={song:'Charlie Puth',query:'Charlie Puth official songs'};
 let currentCpVideo='nfs8NYg7yQM';
-modalListenBtn.disabled=false;
-modalListenBtn.textContent='↓ Xem playlist';
-charliePlaylist.hidden=false;
+function renderPlaylist(song){
+  const playlist=playlistData[song]||playlistData['Charlie Puth'];
+  charliePlaylist.hidden=false;
+  document.getElementById('cpPlaylistTitle').textContent=playlist.title;
+  document.getElementById('cpPlaylistCount').textContent=playlist.tracks.length+' bài gợi ý';
+  const trackList=document.getElementById('cpTrackList');
+  trackList.innerHTML='';
+  playlist.tracks.forEach((track,index)=>{
+    const button=document.createElement('button');
+    button.className='cp-track';button.type='button';button.dataset.video=track[1];button.dataset.title=track[0];button.setAttribute('aria-pressed',index===0?'true':'false');
+    button.innerHTML='<span class="cp-track-num">'+String(index+1).padStart(2,'0')+'</span><span class="cp-track-copy"><strong></strong><small></small></span><span class="cp-track-play">'+(index===0?'♪':'▶')+'</span>';
+    button.querySelector('.cp-track-copy strong').textContent=track[0];
+    button.querySelector('.cp-track-copy small').textContent=track[2];
+    button.addEventListener('click',()=>chooseCpTrack(button));
+    trackList.appendChild(button);
+  });
+  currentCpVideo=playlist.tracks[0][1];
+  cpPlayer.src='https://www.youtube-nocookie.com/embed/'+currentCpVideo+'?enablejsapi=1&controls=1&playsinline=1&rel=0';
+  cpPlayerStatus.textContent='Đã chọn '+playlist.tracks[0][0]+'. Bấm Phát để nghe.';
+}
+modalListenBtn.disabled=false;modalListenBtn.textContent='↓ Xem playlist';renderPlaylist('Charlie Puth');
 function closeMusicPicker(){musicModal.classList.remove('open');musicModal.setAttribute('aria-hidden','true');document.body.style.overflow=''}
 function openMusicPicker(){musicModal.classList.add('open');musicModal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}
 window.addEventListener('DOMContentLoaded',()=>{window.setTimeout(openMusicPicker,350)});
@@ -217,25 +238,16 @@ modalPickButtons.forEach(button=>button.addEventListener('click',()=>{
   modalPickButtons.forEach(item=>item.setAttribute('aria-pressed','false'));
   button.setAttribute('aria-pressed','true');
   modalTrack={song:button.dataset.song,query:button.dataset.query};
-  if(modalTrack.song==='Charlie Puth'){
-    charliePlaylist.hidden=false;
-    modalListenBtn.disabled=false;
-    modalListenBtn.textContent='↓ Xem playlist';
-  }else{
-    charliePlaylist.hidden=true;
-    modalListenBtn.disabled=true;
-    modalListenBtn.textContent='Playlist đang được bổ sung';
-  }
+  renderPlaylist(modalTrack.song);
+  modalListenBtn.disabled=false;modalListenBtn.textContent='↓ Xem playlist';
 }));
 function chooseCpTrack(button){
-  cpTrackButtons.forEach(item=>{item.setAttribute('aria-pressed','false');item.querySelector('.cp-track-play').textContent='▶'});
-  button.setAttribute('aria-pressed','true');
-  button.querySelector('.cp-track-play').textContent='♪';
+  document.querySelectorAll('.cp-track').forEach(item=>{item.setAttribute('aria-pressed','false');item.querySelector('.cp-track-play').textContent='▶'});
+  button.setAttribute('aria-pressed','true');button.querySelector('.cp-track-play').textContent='♪';
   currentCpVideo=button.dataset.video;
   cpPlayer.src='https://www.youtube-nocookie.com/embed/'+currentCpVideo+'?enablejsapi=1&controls=1&playsinline=1&rel=0';
   cpPlayerStatus.textContent='Đã chọn '+button.dataset.title+'. Bấm Phát để nghe.';
 }
-cpTrackButtons.forEach(button=>button.addEventListener('click',()=>chooseCpTrack(button)));
 document.getElementById('cpPlayBtn').addEventListener('click',()=>{
   cpPlayer.src='https://www.youtube-nocookie.com/embed/'+currentCpVideo+'?enablejsapi=1&controls=1&playsinline=1&rel=0&autoplay=1';
   cpPlayerStatus.textContent='Đang yêu cầu phát bài đã chọn…';
@@ -244,10 +256,8 @@ document.getElementById('cpPauseBtn').addEventListener('click',()=>{
   try{cpPlayer.contentWindow.postMessage(JSON.stringify({event:'command',func:'pauseVideo',args:''}),'https://www.youtube-nocookie.com');cpPlayerStatus.textContent='Đã gửi lệnh tạm dừng.'}catch(error){cpPlayerStatus.textContent='Dùng nút tạm dừng ngay trên trình phát nếu cần.'}
 });
 modalListenBtn.addEventListener('click',()=>{
-  if(modalTrack&&modalTrack.song==='Charlie Puth'){
-    charliePlaylist.hidden=false;
-    document.getElementById('cpTrackList').scrollIntoView({behavior:'smooth',block:'nearest'});
-  }
+  charliePlaylist.hidden=false;
+  document.getElementById('cpTrackList').scrollIntoView({behavior:'smooth',block:'nearest'});
 });
 
 document.getElementById('helloBtn').addEventListener('click',()=>{toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),2200)});
