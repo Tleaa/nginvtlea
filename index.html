@@ -165,9 +165,7 @@ h1,h2,h3,p{margin-top:0}h1{font:900 clamp(48px,7vw,78px)/.98 Nunito,sans-serif;l
       <button class="modal-pick" type="button" data-song="CAPTAIN BOY" data-query="CAPTAIN BOY official songs" aria-pressed="false"><span class="track-art">🎧</span><span><strong>CAPTAIN BOY</strong><small>V-Pop · catchy</small></span></button>
       <button class="modal-pick" type="button" data-song="CORTIS" data-query="CORTIS official music" aria-pressed="false"><span class="track-art">🩵</span><span><strong>CORTIS</strong><small>Fresh pop mood</small></span></button>
       <button class="modal-pick" type="button" data-song="Charlie Puth" data-query="Charlie Puth official songs" aria-pressed="true"><span class="track-art">☁️</span><span><strong>Charlie Puth</strong><small>Pop · melody</small></span></button>
-      <button class="modal-pick" type="button" data-song="Bray" data-query="Bray official songs" aria-pressed="false"><span class="track-art">🎙️</span><span><strong>Bray</strong><small>Melodic rap</small></span></button>
-      <button class="modal-pick" type="button" data-song="Ballad mood" data-query="Vietnamese chill ballad playlist" aria-pressed="false"><span class="track-art">🌷</span><span><strong>Ballad mood</strong><small>Nhẹ nhàng, cảm xúc</small></span></button>
-      <button class="modal-pick" type="button" data-song="Melodic rap mood" data-query="Vietnamese melodic rap playlist" aria-pressed="false"><span class="track-art">✨</span><span><strong>Melodic rap mood</strong><small>Rap có giai điệu</small></span></button>
+      <button class="modal-pick" type="button" data-song="Bray" data-query="B Ray official songs" aria-pressed="false"><span class="track-art">🎙️</span><span><strong>Bray</strong><small>Melodic rap</small></span></button>
     </div>
 
     <div class="cp-playlist" id="charliePlaylist" hidden>
@@ -181,7 +179,7 @@ h1,h2,h3,p{margin-top:0}h1{font:900 clamp(48px,7vw,78px)/.98 Nunito,sans-serif;l
     </div>
 
     <div class="modal-actions"><button class="btn primary" id="modalListenBtn" type="button" disabled>▶ Nghe thử gợi ý</button><button class="btn soft" id="skipMusicBtn" type="button">Để lát nghe ♡</button></div>
-    <p class="modal-footnote">Chọn nghệ sĩ hoặc mood để xem playlist riêng. Nhạc chỉ phát sau khi người xem chủ động bấm Phát.</p>
+    <p class="modal-footnote">Chọn một trong bốn nghệ sĩ để nghe thử playlist riêng. Nhạc chỉ phát sau khi người xem chủ động bấm Phát.</p>
   </div>
 </div>
 
@@ -198,11 +196,9 @@ const cpTrackButtons=document.querySelectorAll('.cp-track');
 const cpPlayerStatus=document.getElementById('cpPlayerStatus');
 const playlistData={
   'Charlie Puth':{title:'Charlie Puth · mini playlist ☁️',tracks:[['Attention','nfs8NYg7yQM','Official music video'],["We Don't Talk Anymore",'3AtDnEC4zak','feat. Selena Gomez'],['How Long','CwfoyVa980U','Official music video'],['One Call Away','BxuY9FET9Y4','Official music video']]},
-  'CAPTAIN BOY':{title:'CAPTAIN BOY · mini playlist 🎧',tracks:[['Ừ Thì Chia Tay','ZNVVMlZbzVk','ft. RHYDER · Official MV'],['Giá Mà Anh','b7rh-f36jrE','Official MV']]},
-  'CORTIS':{title:'CORTIS · mini playlist 🩵',tracks:[['GO!','WXS-o57VJ5w','Official MV'],['What You Want','e2OpbOv_JiQ','Official MV']]},
-  'Bray':{title:'Bray · mini playlist 🎙️',tracks:[["Ex’s Hate Me",'95ahbau-rJk','ft. AMEE · Official MV'],['Con Trai Cưng (Piano Version)','l4RyIm0dZyo','K-ICM ft. B Ray · MV Official']]},
-  'Ballad mood':{title:'Ballad mood · soft hours 🌷',tracks:[['One Call Away','BxuY9FET9Y4','Charlie Puth'],["We Don't Talk Anymore",'3AtDnEC4zak','Charlie Puth ft. Selena Gomez'],['What You Want','e2OpbOv_JiQ','CORTIS · softer mood pick']]},
-  'Melodic rap mood':{title:'Melodic rap · late-night vibe ✨',tracks:[["Ex’s Hate Me",'95ahbau-rJk','Bray ft. AMEE'],['Giá Mà Anh','b7rh-f36jrE','CAPTAIN BOY'],['Con Trai Cưng (Piano Version)','l4RyIm0dZyo','K-ICM ft. B Ray']]}
+  'CAPTAIN BOY':{title:'CAPTAIN BOY · mini playlist 🎧',tracks:[['Giá Mà Anh','b7rh-f36jrE','Official MV'],['Ai Lớn Cũng Phải','SivLRE0ez2w','Official animation MV'],['Cảm Ơn Đã Ở Bên','EX5hFe5gN8s','ft. B Ray · Official lyric video'],['Ừ Thì Chia Tay','ZNVVMlZbzVk','ft. RHYDER · Official MV']]},
+  'CORTIS':{title:'CORTIS · mini playlist 🩵',tracks:[['REDRED','U6BDbXIah-Y','Official MV'],['Mention Me','gUGOkgP7DCQ','GOAT soundtrack · video'],['GO!','WXS-o57VJ5w','Official MV'],['What You Want','e2OpbOv_JiQ','Official MV']]},
+  'Bray':{title:'Bray · mini playlist 🎙️',tracks:[['Ex’s Hate Me','95ahbau-rJk','ft. AMEE · Official MV'],['Làm Vì Yêu','OraQu3XyNJ8','Official MV'],['Cảm Ơn Đã Ở Bên','EX5hFe5gN8s','ft. CAPTAIN BOY · Official lyric video'],['Con Trai Cưng (Piano Version)','l4RyIm0dZyo','K-ICM ft. B Ray · MV Official']]}
 };
 let modalTrack={song:'Charlie Puth',query:'Charlie Puth official songs'};
 let currentCpVideo='nfs8NYg7yQM';
