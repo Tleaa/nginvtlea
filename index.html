@@ -281,27 +281,17 @@ listenBtn.addEventListener('click',()=>{
 });
 const soundButton=document.getElementById('soundToggle');
 function setSoundButton(isOn){
-  soundButton.textContent=isOn?'♫ Âm thanh: Bật':'♫ Âm thanh: Tắt';
+  soundOn=isOn;
+  soundButton.textContent=isOn?'♫ Âm thanh: Tắt':'♫ Âm thanh: Bật';
   soundButton.setAttribute('aria-pressed',String(isOn));
   soundButton.setAttribute('aria-label',isOn?'Tắt nhạc đang phát':'Bật lại nhạc đã chọn');
 }
 function stopAllPageAudio(){
-  try{
-    if(cpPlayer && cpPlayer.contentWindow){
-      cpPlayer.contentWindow.postMessage(JSON.stringify({event:'command',func:'stopVideo',args:''}),'https://www.youtube-nocookie.com');
-      cpPlayer.src='about:blank';
-    }
-  }catch(e){
-    if(cpPlayer)cpPlayer.src='about:blank';
+  // Reload the player without autoplay so it is silent but the chosen song is retained.
+  if(cpPlayer && currentCpVideo){
+    cpPlayer.src='https://www.youtube-nocookie.com/embed/'+currentCpVideo+'?enablejsapi=1&controls=1&playsinline=1&rel=0';
   }
-  document.querySelectorAll('iframe').forEach(frame=>{
-    try{
-      if(frame!==cpPlayer && /youtube(-nocookie)?\.com/i.test(frame.src)){
-        frame.src='about:blank';
-      }
-    }catch(e){}
-  });
-  if(cpPlayerStatus)cpPlayerStatus.textContent='Đã tắt nhạc. Bấm “Âm thanh: Bật” để nghe lại bài đã chọn.';
+  if(cpPlayerStatus)cpPlayerStatus.textContent='Đã tắt nhạc. Bấm “Âm thanh: Bật” để phát lại bài đã chọn.';
   oscillators.forEach(osc=>{try{osc.stop()}catch(e){}});
   oscillators=[];
   soundOn=false;
@@ -310,16 +300,16 @@ function stopAllPageAudio(){
 }
 setSoundButton(false);
 soundButton.addEventListener('click',()=>{
-  if(soundButton.getAttribute('aria-pressed')==='true'){
+  if(soundOn){
     stopAllPageAudio();
     return;
   }
-  // Restore the last selected song after stopping the iframe.
   if(cpPlayer && currentCpVideo){
     cpPlayer.src='https://www.youtube-nocookie.com/embed/'+currentCpVideo+'?enablejsapi=1&controls=1&playsinline=1&rel=0&autoplay=1';
-    if(cpPlayerStatus)cpPlayerStatus.textContent='Đang bật lại bài nhạc đã chọn…';
+    if(cpPlayerStatus)cpPlayerStatus.textContent='Đang bật lại bài nhạc đã chọn… Nếu chưa phát, bấm ▶ Phát trong trình nghe.';
     setSoundButton(true);
   }else{
+    if(cpPlayerStatus)cpPlayerStatus.textContent='Chọn một bài trong playlist trước nha.';
     setSoundButton(false);
   }
 });</script>
